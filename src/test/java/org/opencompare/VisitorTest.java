@@ -27,8 +27,6 @@ public class VisitorTest {
         // Execute the printer
         MyPCMPrinter myPrinter = new MyPCMPrinter();
         myPrinter.print(pcm);
-
-
     }
 
 }
