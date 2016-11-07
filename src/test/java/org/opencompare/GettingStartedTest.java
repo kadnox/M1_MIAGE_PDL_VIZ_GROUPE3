@@ -21,7 +21,7 @@ public class GettingStartedTest {
     public void testGettingStarted() throws IOException {
 
         // Define a file representing a PCM to load
-        File pcmFile = new File("pcms/Comparison_of_ATI_chipsets_1.pcm");
+        File pcmFile = new File("pcms/example.pcm");
 
         // Create a loader that can handle the file format
         PCMLoader loader = new KMFJSONLoader();
@@ -31,8 +31,8 @@ public class GettingStartedTest {
         // A PCM container encapsulates a PCM and its associated metadata
         List<PCMContainer> pcmContainers = loader.load(pcmFile);
 
-        //Structure de données pour le rangement des données - Possible modification si d'autres idées
-        Map ht = new Hashtable<String, ArrayList<Hashtable<String, String>>>();
+        //Structure de données pour le rangement des données
+        Map ht = new Hashtable<String, Map<String, String>>();
 
         for (PCMContainer pcmContainer : pcmContainers) {
 
@@ -41,33 +41,22 @@ public class GettingStartedTest {
 
             // Browse the cells of the PCM
             for (Product product : pcm.getProducts()) {
-                //On initialise la liste de valeur
-                List list = new ArrayList<Hashtable<String, String>>();
+                //On crée le hashtable contenu dans la liste
+                Hashtable values = new Hashtable<String, String>();
 
                 for (Feature feature : pcm.getConcreteFeatures()) {
-
                     // Find the cell corresponding to the current feature and product
                     Cell cell = product.findCell(feature);
 
                     // Get information contained in the cell
                     String content = cell.getContent();
-                    String rawContent = cell.getRawContent();
-                    Value interpretation = cell.getInterpretation();
 
-                    // Print the content of the cell
-                    //System.out.println("(" + product.getKeyContent() + ", " + feature.getName() + ") = " + content);
-
-                    //On crée le hashtable contenu dans la liste
-                    Hashtable value = new Hashtable<String, String>();
                     //On insére la clé et la valeur
-                    value.put(feature.getName(), content);
-
-                    //On ajoute à la liste de valeur
-                    list.add(value);
+                    values.put(feature.getName(), content);
                 }
 
                 //On insère la clé et la valeur (L'arrayList) dans le hashtable
-                ht.put(product.getKeyContent(), list);
+                ht.put(product.getKeyContent(), values);
             }
 
             //On récupère les clés
@@ -79,27 +68,22 @@ public class GettingStartedTest {
                 //On récupère la clé
                 String key = it1.next();
                 //On récupère la valeur de cette clé
-                ArrayList<Hashtable<String, String>> values = (ArrayList)ht.get(key);
+                Hashtable<String, String> values = (Hashtable)ht.get(key);
 
                 //On affiche
                 System.out.println("Key : " + key);
 
-                //Tant qu'il a des hashtable dans l'arrayList
-                for(Hashtable<String, String> value : values) {
-                    //On récupère les clés
-                    Set<String> keysV = value.keySet();
-                    Iterator<String> it2 = keysV.iterator();
+                Set<String> keysValues = values.keySet();
+                Iterator<String> it2 = keysValues.iterator();
 
-                    //Tant que l'on peut itérer
-                    while (it2.hasNext()) {
-                        //On récupère la clé
-                        String keyV = it2.next();
-                        //On récupère la valeur de la clé
-                        String valueV = value.get(keyV);
+                while (it2.hasNext()) {
+                    //On récupère la clé
+                    String keyV = it2.next();
+                    //On récupère la valeur de la clé
+                    String valueV = values.get(keyV);
 
-                        //On affiche
-                        System.out.println("\t" + keyV + " : " + valueV);
-                    }
+                    //On affiche
+                    System.out.println("\t" + keyV + " : " + valueV);
                 }
             }
 
