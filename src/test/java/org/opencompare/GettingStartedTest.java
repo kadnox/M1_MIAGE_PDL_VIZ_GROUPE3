@@ -7,6 +7,7 @@ import org.opencompare.api.java.io.CSVExporter;
 import org.opencompare.api.java.io.PCMLoader;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -63,6 +64,12 @@ public class GettingStartedTest {
             Set<String> keys = ht.keySet();
             Iterator<String> it1 = keys.iterator();
 
+            // on crée un tableau contenant tout les produits
+            int nb_produit = keys.size();
+            String liste_produit[] = new String[nb_produit];
+
+            int compteur_produit =0;
+
             //Tant que l'on peut itérer
             while (it1.hasNext()) {
                 //On récupère la clé
@@ -72,7 +79,8 @@ public class GettingStartedTest {
 
                 //On affiche
                 System.out.println("Key : " + key);
-
+                liste_produit[compteur_produit]=key;
+                compteur_produit++;
                 Set<String> keysValues = values.keySet();
                 Iterator<String> it2 = keysValues.iterator();
 
@@ -82,9 +90,13 @@ public class GettingStartedTest {
                     //On récupère la valeur de la clé
                     String valueV = values.get(keyV);
 
+
+
                     //On affiche
                     System.out.println("\t" + keyV + " : " + valueV);
                 }
+
+
             }
 
             // Export the PCM container to CSV
@@ -95,7 +107,70 @@ public class GettingStartedTest {
             Path outputFile = Files.createTempFile("oc-", ".csv");
             Files.write(outputFile, csv.getBytes());
             System.out.println("PCM exported to " + outputFile);
+
+
+            System.out.println("nombre de produit" + liste_produit.length + " numero variable" + nb_produit);
+
+            for( int i = 0; i<liste_produit.length;i++){
+                System.out.println("le produit numero " + i +" est " + liste_produit[i]);
+
+            }
+            Map test =(Map)ht.get(liste_produit[0]);
+            Set<String> ensemble_feature= test.keySet();
+            System.out.println(ensemble_feature.size());
+            Object [] liste_feature=  ensemble_feature.toArray();
+
+            for(int i =0; i<liste_feature.length;i++){
+                System.out.println("la feature numero " + i + " est " + liste_feature[i]);
+            }
+
+
+
+
+            String newline = System.getProperty("line.separator");
+
+            FileWriter writer = new FileWriter("C:\\Users\\Testeur\\Desktop\\output.html");
+            writer.write("<!doctype html>\n <html lang= fr >"+ newline);
+            writer.write("<head>"+ newline);
+            writer.write("<script src=\'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js\'></script>" +newline);
+            writer.write("<script type=\'text/javascript\' src=\'js/materialize.min.js\'></script>" +newline);
+            writer.write("<link href=\'http://fonts.googleapis.com/icon?family=Material+Icons\' rel=\'stylesheet\'>" +newline);
+            writer.write("<meta charset='utf-8'>" +newline);
+            writer.write("<title> Projet ACO </title>" +newline);
+            writer.write("</head>" +newline);
+            writer.write("<body>" +newline);
+            writer.write("<div class=\'row center\' style=\'background-color: red\'>" + newline);
+            writer.write("<div class=\'col s3 input-field\' style=\'background-color: pink\'>" +newline);
+            writer.write("<select multiple>" + newline);
+            for(int i =0; i<liste_feature.length;i++){
+               writer.write("<option value="+ i+"> "+ liste_feature[i] + "</option>" + newline);
+            }
+            writer.write("</select>"+newline );
+            writer.write("</div>" +newline);
+            writer.write("<div class=\'col s8 offset-s1\'>" +newline);
+            writer.write("<div class='row' style='background-color: blue'>" +newline);
+            writer.write("</div>" +newline);
+            writer.write("</div>" +newline);
+            writer.write("</div>" +newline);
+            writer.write("</body>" +newline);
+            writer.write("");
+            //writer.write("<script src=\'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js\'></script>" +newline);
+            //writer.write("<script type=\'text/javascript\' src=\'js/materialize.min.js\'></script>" +newline);
+            writer.close();
+
+           /* System.out.println(ht.get(liste_produit[0].getClass()));
+            System.out.println(ht.getClass());
+            System.out.println(ht.get(liste_produit[0]));*/
+
+           /* Set<String> test_htsa = ht.keySet();
+            Iterator<String> it1_htsa = keys.iterator();
+
+            it1_htsa.next();*/
+
+
+
         }
 
+        // ajout de htsa .
     }
 }
