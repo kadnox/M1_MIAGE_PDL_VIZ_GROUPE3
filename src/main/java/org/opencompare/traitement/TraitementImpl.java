@@ -12,7 +12,7 @@ import java.util.*;
  * Created by Fonck on 07/11/2016.
  */
 public class TraitementImpl implements Traitement {
-    Map data;
+    Map<String, Map<String, String>> data;
 
     public TraitementImpl() {
         this.data = new Hashtable<String, Map<String, String>>();
@@ -35,7 +35,7 @@ public class TraitementImpl implements Traitement {
             // On parcourts les cellules de la PCM
             for (Product product : pcm.getProducts()) {
                 // On crée le hashtable contenu dans la liste
-                Hashtable values = new Hashtable<String, String>();
+                Hashtable<String, String> values = new Hashtable<String, String>();
 
                 for (Feature feature : pcm.getConcreteFeatures()) {
                     // Find the cell corresponding to the current feature and product
@@ -52,5 +52,16 @@ public class TraitementImpl implements Traitement {
                 data.put(product.getKeyContent(), values);
             }
         }
+    }
+
+    @Override
+    public ArrayList<String> getFeatureListe() {
+        return new ArrayList<String>(this.data.get(getProductListe().get(0)).keySet());
+    }
+
+
+    @Override
+    public ArrayList<String> getProductListe() {
+        return new ArrayList<String>(this.data.keySet());
     }
 }

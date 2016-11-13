@@ -19,7 +19,7 @@ public class VisitorTest {
     public void testMyPCMPrinter() throws IOException {
 
         // Load a PCM
-        File pcmFile = new File("pcms/example.pcm");
+        File pcmFile = new File("C:/Users/y-jos/Desktop/PCM/Comparison_of_audio_synthesis_environments_0.pcm");
         PCMLoader loader = new KMFJSONLoader();
         PCM pcm = loader.load(pcmFile).get(0).getPcm();
         assertNotNull(pcm);
