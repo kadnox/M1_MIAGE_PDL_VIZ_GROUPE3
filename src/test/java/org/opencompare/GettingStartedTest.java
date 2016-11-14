@@ -22,7 +22,7 @@ public class GettingStartedTest {
     public void testGettingStarted() throws IOException {
 
         // Define a file representing a PCM to load
-        File pcmFile = new File("C:/Users/y-jos/Desktop/PCM/Comparison_of_audio_synthesis_environments_0.pcm");
+        File pcmFile = new File("pcms/example.pcm");
 
         // Create a loader that can handle the file format
         PCMLoader loader = new KMFJSONLoader();
@@ -129,8 +129,10 @@ public class GettingStartedTest {
 
             String newline = System.getProperty("line.separator");
 
+
+
             FileWriter writer = new FileWriter("C:\\Users\\Testeur\\Desktop\\output.html");
-            writer.write("<!doctype html>\n <html lang= fr >"+ newline);
+            /*writer.write("<!doctype html>\n <html lang= fr >"+ newline);
             writer.write("<head>"+ newline);
             writer.write("<script src=\'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js\'></script>" +newline);
             writer.write("<script type=\'text/javascript\' src=\'js/materialize.min.js\'></script>" +newline);
@@ -152,10 +154,156 @@ public class GettingStartedTest {
             writer.write("</div>" +newline);
             writer.write("</div>" +newline);
             writer.write("</div>" +newline);
+            writer.write("<script type='text/javascript' $(document).ready(function() { $('select').material_select();}) </script>" +newline);
             writer.write("</body>" +newline);
-            writer.write("");
+
+            writer.write("</html>" +newline);*/
             //writer.write("<script src=\'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js\'></script>" +newline);
             //writer.write("<script type=\'text/javascript\' src=\'js/materialize.min.js\'></script>" +newline);
+            writer.write("<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "\t<head>\n" +
+                    "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+                    "\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\n" +
+                    "\t\t<link href=\"http://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n" +
+                    "\t\t<link rel=\"stylesheet\" href=\"../../../../materialize/css/materialize.min.css\">\n" +
+                    "\t\t<link rel=\"stylesheet\" href=\"style.css\">\n" +
+                    "\t\t\t<script type=\"text/javascript\" src=\"https://code.jquery.com/jquery-2.1.1.min.js\">\n" +
+                    "\n" +
+                    "</script>\n" +
+                    "\t<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css\">\n" +
+                    "\t <script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js\"></script>\n" +
+                    "<script type=\"text/javascript\">\n" +
+                    "\t\t$(document).ready(function() {\n" +
+                    "\t\t\t$('select').material_select();\n" +
+                    "\t\t});\n" +
+                    "\t</script>\n" +
+                    "\t\t<script type=\"text/javascript\">\n" +
+                    "\t\t\tfunction searchProductToAdd() {\n" +
+                    "\t\t\t\tvar ul = document.getElementById('toAdd');\n" +
+                    "\t\t\t\tvar search = document.getElementById('search_product_to_add').value;\n" +
+                    "\t\t\t\tvar search_length = search.length;\n" +
+                    "\n" +
+                    "\t\t\t\tconsole.log(search_length);\n" +
+                    "\n" +
+                    "\t\t\t\tfor(var i = 0, li; li = ul.children[i]; i++) {\n" +
+                    "\t\t\t\t\tif(li.tagName == 'LI') {\n" +
+                    "\t\t\t\t\t\tvar product_name = ul.children[i].getElementsByClassName('product_name')[0].innerHTML;\n" +
+                    "\n" +
+                    "\t\t\t\t\t\tif(product_name.substring(0, search_length) != search) {\n" +
+                    "\n" +
+                    "\t\t\t\t\t\t}\n" +
+                    "\t\t\t\t  \t}\n" +
+                    "\t\t\t\t}\n" +
+                    "\t\t\t}\n" +
+                    "\t\t</script>\n" +
+                    "\n" +
+                    "\t\t<title>$title</title>\n" +
+                    "\t</head>\n" +
+                    "\t<body>\n" +
+                    "\t\t<div class=\"row\" style=\"background-color: red\">\n" +
+                    "\t\t\t<div class=\"col s12 m3 offset-m1 input-field\" style=\"background-color: pink\">\n" +
+                    "\t\t\t\t<select id=\"feature\" multiple>\n" +
+
+                    "\t\t\t\t\t<option value=\"0\" disabled selected>Select feature</option>\n" );
+
+            //"\t\t\t\t\t<option value=\"1\">Feature 1</option>\n" +
+            for(int i =1; i<liste_feature.length+1;i++){
+                writer.write("<option value="+ i+"> "+ liste_feature[i-1] + "</option>" + newline);
+            }
+            writer.write( "\t\t\t\t</select>\n" +
+                    "\t\t\t</div>\n" +
+                    "\t\t\t<div class=\"col s12 m7 offset-m1\">\n" +
+                    "\t\t\t\t<div class=\"row\" style=\"background-color: blue\">\n" +
+                    "\t\t\t\t\t<div class=\"col s5 center\" style=\"background-color: green\">\n" +
+                    "\t\t\t\t\t\t<div class=\"search_bar\">\n" +
+                    "\t\t\t\t\t\t\t<form class=\"input-field\">\n" +
+                    "\t\t\t\t\t\t\t\t<input id=\"search_product_to_add\" type=\"search\" placeholder=\"Search...\" onKeyUp=\"searchProductToAdd()\">\n" +
+                    "\t\t\t\t\t\t\t\t<label for=\"search\">\n" +
+                    "\t\t\t\t\t\t\t\t\t<i class=\"material-icons\">search</i>\n" +
+                    "\t\t\t\t\t\t\t\t</label>\n" +
+                    "\t          \t\t\t\t</form>\n" +
+                    "\t\t\t\t\t\t</div>\n" +
+                    "\n" +
+                    "\t\t\t\t\t\t<div class=\"list_product_to_add\" style=\"background-color: white\">\n" +
+                    "\t\t\t\t\t\t\t<ul id=\"toAdd\" class=\"collection\">\n" );
+
+            for(int i = 0; i<22; i++){
+
+                Map temporaire =(Map)ht.get(liste_produit[i]); //
+                String ligne_html = "<div class='product_name' ";
+                for (int j =0 ; j<liste_feature.length; j++){
+                    String nom_feature= (String)liste_feature[j];
+                    nom_feature= nom_feature.toLowerCase();
+                    nom_feature = nom_feature.replace(" ", "_");
+                    String data_tmp = (String)temporaire.get(liste_feature[j]);
+                    ligne_html = ligne_html + "data-" + nom_feature + "='"+ data_tmp + "' ";
+                }
+
+
+                writer.write("<li class=\"collection-item\">" +newline);
+
+                writer.write(ligne_html +">"+ liste_produit[i] +"</div>"+ newline );
+                writer.write("<a href='#!' class='secondary-content'><i class='material-icons'>keyboard_arrow_right</i></a>"+ newline +"</li>");
+
+
+            }
+
+            writer.write(
+                    "\t\t\t\t\t\t\t</ul>\n" +
+                            "\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\n" +
+                            "\t\t\t\t\t<div class=\"col s2 center\" style=\"background-color: red\">\n" +
+                            "\t\t\t\t\t\t<div class=\"arrows\">\n" +
+                            "\t\t\t\t\t\t\t<ul>\n" +
+                            "\t\t\t\t\t\t\t\t<li>\n" +
+                            "\t\t\t\t\t\t\t\t\t<a href=\"#!\" class=\"secondary-content\"><i class=\"material-icons\">fast_forward</i></a>\n" +
+                            "\t\t\t\t\t\t\t\t</li>\n" +
+                            "\t\t\t\t\t\t\t\t<li>\n" +
+                            "\t\t\t\t\t\t\t\t\t<a href=\"#!\" class=\"secondary-content\"><i class=\"material-icons\">fast_rewind</i></a>\n" +
+                            "\t\t\t\t\t\t\t\t</li>\n" +
+                            "\t\t\t\t\t\t\t</ul>\n" +
+                            "\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t</div>\n" +
+                            "\n" +
+                            "\t\t\t\t\t<div class=\"col s5 center\" style=\"background-color: yellow\">\n" +
+                            "\t\t\t\t\t\t<div class=\"search_bar\">\n" +
+                            "\t\t\t\t\t\t\t<form class=\"input-field\">\n" +
+                            "\t\t\t\t\t\t\t\t<input id=\"search_product_to_remove\" type=\"search\" placeholder=\"Search...\" onKeyUp=\"search_product_to_remove()\">\n" +
+                            "\t\t\t\t\t\t\t\t<label for=\"search\">\n" +
+                            "\t\t\t\t\t\t\t\t\t<i class=\"material-icons\">search</i>\n" +
+                            "\t\t\t\t\t\t\t\t</label>\n" +
+                            "\t          \t\t\t\t</form>\n" +
+                            "\t\t\t\t\t\t</div>\n" +
+                            "\n" +
+                            "\t\t\t\t\t\t<div class=\"list_product_view\" style=\"background-color: white\">\n" +
+                            "\t\t\t\t\t\t\t<ul id=\"toremove\" class=\"collection\">\n" );
+            for (int i= 23; i<43;i++){
+                writer.write("<li class='collection-item'>" + liste_produit[i] + newline);
+                writer.write("<a href=\"#!\" class=\"secondary-content left\"><i class=\"material-icons\">keyboard_arrow_left</i></a>" + newline + "</li>" + newline);
+            }
+
+            writer.write(  "\t\t\t\t\t\t\t</ul>\n" +
+                    "\t\t\t\t\t\t</div>\n" +
+                    "\t\t\t\t\t</div>\n" +
+                    "\t\t\t\t</div>\n" +
+                    "\t\t\t</div>\n" +
+                    "\t\t\t<div class=\"col s6 offset-s6\">\n" +
+                    "\t\t\t\t$chart\n" +
+                    "\t\t\t</div>\n" +
+                    "\t\t</div>\n" +
+                    "\t\t<div class=\"row\">\n" +
+                    "\t\t\t<div class=\"col s12\" style=\"background-color: pink\">\n" +
+                    "\t\t\t\taa\n" +
+                    "\t\t\t</div>\n" +
+                    "\t\t</div>\n" +
+                    "\t</body>\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "\t\n" +
+                    "</html>\n");
             writer.close();
 
            /* System.out.println(ht.get(liste_produit[0].getClass()));
