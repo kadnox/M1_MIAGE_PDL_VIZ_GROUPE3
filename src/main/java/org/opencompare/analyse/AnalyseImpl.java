@@ -2,6 +2,7 @@ package org.opencompare.analyse;
 
 import org.opencompare.traitement.TraitementImpl;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -10,9 +11,7 @@ import java.util.*;
 public class AnalyseImpl implements Analyse {
     private TraitementImpl traitement;
     private Map<String, ArrayList<String>> table = new HashMap<>();
-    private Map temp = new HashMap<>();
     private ArrayList<String> liste = new ArrayList<>();
-    //Set<String> featureTo...;
 
     public AnalyseImpl(TraitementImpl t) {
         this.traitement = t;
@@ -29,13 +28,46 @@ public class AnalyseImpl implements Analyse {
             table.put(f,new ArrayList<>());
         }
         for(String p : traitement.getProductListe()) {
-
+            Map<String,String> test = (Map) traitement.getData().get(p);
+            String valueFeature ;
             for (String f : traitement.getFeatureListe()) {
-                table.put(f,table.get(f).add());
+                ArrayList<String> temp = new ArrayList<String>();
+                temp = table.get(f);
+                valueFeature =  (String) test.get(new String(f));
+                temp.add(valueFeature);
+                table.put(f,temp);
             }
 
         }
         return table;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
