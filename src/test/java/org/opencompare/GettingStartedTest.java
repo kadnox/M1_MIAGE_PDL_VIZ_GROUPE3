@@ -24,6 +24,7 @@ public class GettingStartedTest {
         // Define a file representing a PCM to load
         File pcmFile = new File("pcms/example.pcm");
 
+
         // Create a loader that can handle the file format
         PCMLoader loader = new KMFJSONLoader();
 
@@ -131,35 +132,8 @@ public class GettingStartedTest {
 
 
 
-            FileWriter writer = new FileWriter("C:\\Users\\Testeur\\Desktop\\output.html");
-            /*writer.write("<!doctype html>\n <html lang= fr >"+ newline);
-            writer.write("<head>"+ newline);
-            writer.write("<script src=\'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js\'></script>" +newline);
-            writer.write("<script type=\'text/javascript\' src=\'js/materialize.min.js\'></script>" +newline);
-            writer.write("<link href=\'http://fonts.googleapis.com/icon?family=Material+Icons\' rel=\'stylesheet\'>" +newline);
-            writer.write("<meta charset='utf-8'>" +newline);
-            writer.write("<title> Projet ACO </title>" +newline);
-            writer.write("</head>" +newline);
-            writer.write("<body>" +newline);
-            writer.write("<div class=\'row center\' style=\'background-color: red\'>" + newline);
-            writer.write("<div class=\'col s3 input-field\' style=\'background-color: pink\'>" +newline);
-            writer.write("<select multiple>" + newline);
-            for(int i =0; i<liste_feature.length;i++){
-               writer.write("<option value="+ i+"> "+ liste_feature[i] + "</option>" + newline);
-            }
-            writer.write("</select>"+newline );
-            writer.write("</div>" +newline);
-            writer.write("<div class=\'col s8 offset-s1\'>" +newline);
-            writer.write("<div class='row' style='background-color: blue'>" +newline);
-            writer.write("</div>" +newline);
-            writer.write("</div>" +newline);
-            writer.write("</div>" +newline);
-            writer.write("<script type='text/javascript' $(document).ready(function() { $('select').material_select();}) </script>" +newline);
-            writer.write("</body>" +newline);
-
-            writer.write("</html>" +newline);*/
-            //writer.write("<script src=\'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js\'></script>" +newline);
-            //writer.write("<script type=\'text/javascript\' src=\'js/materialize.min.js\'></script>" +newline);
+            FileWriter writer = new FileWriter("src/test/files/resultat.html");
+/*
             writer.write("<!DOCTYPE html>\n" +
                     "<html>\n" +
                     "\t<head>\n" +
@@ -304,16 +278,136 @@ public class GettingStartedTest {
                     "\n" +
                     "\t\n" +
                     "</html>\n");
+
+*/
+            writer.write("<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "\t<head>\n" +
+                    "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+                    "\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\n" +
+                    "\t\t<link href=\"http://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n" +
+                    "  \t\t<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css\">\n" +
+                    "\t\t<link rel=\"stylesheet\" href=\"style.css\">\n" +
+                    "\t\t\n" +
+                    "\t\t<script type=\"text/javascript\" src=\"userConfig.js\"></script>\n" +
+                    "\n" +
+                    "\t\t<title>PCM Example </title>\n" +
+                    "\t</head>\n" +
+                    "\t<body>\n" +
+                    "\t\t<div id=\"research\" class=\"row\">\n" +
+                    "\t\t\t<div id=\"feature\" class=\"col s12 m12 l3 offset-l1 input-field\">\n" +
+                    "\t\t\t\t<select id=\"select_feature\">\n" +
+                    "\t\t\t\t\t<option value=\"0\" disabled selected>Select feature</option>");
+
+            for(int i =1; i<liste_feature.length+1;i++){
+                writer.write("<option value="+ i+"> "+ liste_feature[i-1] + "</option>" + newline);
+            }
+
+            writer.write("</select>\n" +
+                    "\t\t\t</div>\n" +
+                    "\t\t\t<div id=\"product\" class=\"col s12 m12 l7 offset-l1\">\n" +
+                    "\t\t\t\t<div class=\"col s12 m5 center\">\n" +
+                    "\t\t\t\t\t<div class=\"search_bar\">\n" +
+                    "\t\t\t\t\t\t<form class=\"input-field card\">\n" +
+                    "\t\t\t\t\t\t\t<input id=\"search_product_to_add\" type=\"search\" placeholder=\"Rechercher...\" onKeyUp=\"searchProductToAdd()\">\n" +
+                    "\t\t\t\t\t\t\t<label for=\"search\">\n" +
+                    "\t\t\t\t\t\t\t\t<i class=\"material-icons\">search</i>\n" +
+                    "\t\t\t\t\t\t\t</label>\n" +
+                    "          \t\t\t\t</form>\n" +
+                    "\t\t\t\t\t</div>\n" +
+                    "\n" +
+                    "\t\t\t\t\t<div>\n" +
+                    "\t\t\t\t\t\t<ul id=\"list_products_to_add\" class=\"collection\">\n" +
+                    "\t\t\t\t\t\t\t<li class=\"collection-item no_result hide\">\n" +
+                    "\t\t\t\t\t\t\t\t<span class=\"product_name\">Aucun résultat</span>\n" +
+                    "\t\t\t\t\t\t\t</li>");
+
+            for(int i = 0; i<liste_produit.length; i++){
+
+                writer.write("<li class=\"collection-item\">");
+                Map temporaire =(Map)ht.get(liste_produit[i]); //
+                String ligne_html = "<span class='product_name' ";
+                for (int j =0 ; j<liste_feature.length; j++){
+                    String nom_feature= (String)liste_feature[j];
+                    nom_feature= nom_feature.toLowerCase();
+                    nom_feature = nom_feature.replace(" ", "_");
+                    String data_tmp = (String)temporaire.get(liste_feature[j]);
+                    ligne_html = ligne_html + "data-" + nom_feature + "='"+ data_tmp + "' ";
+                }
+
+
+
+
+                writer.write(ligne_html +">"+ liste_produit[i] +"</span>"+ newline );
+                writer.write("<a class=\"secondary-content\" data-name="+ liste_produit[i] +" onClick=\"addProduct(this)\">\n" +
+                        "\t\t\t\t\t\t\t\t\t<i class=\"material-icons\">keyboard_arrow_right</i>\n" +
+                        "\t\t\t\t\t\t\t\t</a>\n" +
+                        "\t\t\t\t\t\t\t</li>");
+
+
+
+            }
+            writer.write("</ul>\n" +
+                    "\t\t\t\t\t</div>\n" +
+                    "\t\t\t\t</div>\n" +
+                    "\t\t\t\t\n" +
+                    "\t\t\t\t<div id=\"arrows\" class=\"col s12 m2 center\">\n" +
+                    "\t\t\t\t\t<ul id=\"ul_arrows\">\n" +
+                    "\t\t\t\t\t\t<li id=\"addAllButton\">\n" +
+                    "\t\t\t\t\t\t\t<a class=\"secondary-content\" onClick=\"addAllProduct()\"><i class=\"material-icons\">fast_forward</i></a>\n" +
+                    "\t\t\t\t\t\t</li>\n" +
+                    "\t\t\t\t\t\t<li id=\"removeAllButton\">\n" +
+                    "\t\t\t\t\t\t\t<a class=\"secondary-content\" onClick=\"removeAllProduct()\"><i class=\"material-icons\">fast_rewind</i></a>\n" +
+                    "\t\t\t\t\t\t</li>\n" +
+                    "\t\t\t\t\t</ul>\n" +
+                    "\t\t\t\t</div>\n" +
+                    "\n" +
+                    "\t\t\t\t<div class=\"col s12 m5 center\">\n" +
+                    "\t\t\t\t\t<div class=\"search_bar\">\n" +
+                    "\t\t\t\t\t\t<form class=\"input-field card\">\n" +
+                    "\t\t\t\t\t\t\t<input id=\"search_product_to_remove\" type=\"search\" placeholder=\"Rechercher...\" onKeyUp=\"searchProductToRemove()\">\n" +
+                    "\t\t\t\t\t\t\t<label for=\"search\">\n" +
+                    "\t\t\t\t\t\t\t\t<i class=\"material-icons\">search</i>\n" +
+                    "\t\t\t\t\t\t\t</label>\n" +
+                    "          \t\t\t\t</form>\n" +
+                    "\t\t\t\t\t</div>\n" +
+                    "\n" +
+                    "\t\t\t\t\t<div>\n" +
+                    "\t\t\t\t\t\t<ul id=\"list_products_added\" class=\"collection\">\n" +
+                    "\t\t\t\t\t\t\t<li class=\"collection-item no_result hide\">\n" +
+                    "\t\t\t\t\t\t\t\t<span class=\"product_name\">Aucun résultat</span>\n" +
+                    "\t\t\t\t\t\t\t</li>\n" +
+                    "\t\t\t\t\t\t</ul>\n" +
+                    "\t\t\t\t\t</div>\n" +
+                    "\t\t\t\t</div>\n" +
+                    "\t\t\t\t<div class=\"col s12 offset-s1\">\n" +
+                    "\t\t\t\t\tAffichage des graphiques possibles (Icônes)\n" +
+                    "\t\t\t\t</div>\n" +
+                    "\t\t\t</div>\n" +
+                    "\t\t</div>\n" +
+                    "\n" +
+                    "\t\t<div id=\"charts\" class=\"row\">\n" +
+                    "\t\t\n" +
+                    "\t\t<div class=\"divider\"></div>\n" +
+                    "\t\t\t<div class=\"col s12\">\n" +
+                    "\t\t\t\tAffichage des graphiques\n" +
+                    "\t\t\t</div>\n" +
+                    "\t\t</div>\n" +
+                    "\t</body>\n" +
+                    "\n" +
+                    "\t<script type=\"text/javascript\" src=\"https://code.jquery.com/jquery-2.1.1.min.js\"></script>\n" +
+                    "  \t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js\"></script>\n" +
+                    "\n" +
+                    "\t<script type=\"text/javascript\">\n" +
+                    "\t\t$(document).ready(function() {\n" +
+                    "\t\t\t$('select').material_select();\n" +
+                    "\t\t});\n" +
+                    "\t</script>\n" +
+                    "</html>");
+
             writer.close();
 
-           /* System.out.println(ht.get(liste_produit[0].getClass()));
-            System.out.println(ht.getClass());
-            System.out.println(ht.get(liste_produit[0]));*/
 
-           /* Set<String> test_htsa = ht.keySet();
-            Iterator<String> it1_htsa = keys.iterator();
-
-            it1_htsa.next();*/
 
 
 
