@@ -1,0 +1,58 @@
+html, body {
+	overflow: hidden;
+}
+
+#research {
+	background-color: #EEEEEE;
+}
+
+#charts {
+	background-color: white;
+}
+
+.dropdown-content li > span {
+	color: black;
+}
+
+.select-dropdown {
+	max-height: 320px;
+}
+
+#product {
+	border: 2px solid #E0E0E0;
+}
+
+.search_bar .input-field label {
+	top: 3.5rem;
+}
+
+#list_products_to_add, #list_products_added {
+	background-color: white;
+}
+
+.collection {
+	width: auto;
+	height: 259px;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+.collection .collection-item:hover {
+	background-color: #E0E0E0 ;
+}
+
+.collection-item .material-icons, #addAllButton .material-icons, #removeAllButton .material-icons {
+	cursor: pointer;
+}
+
+.secondary-content {
+	color: #757575;
+}
+
+#arrows {
+	background-color: white;
+}
+
+#ul_arrows {
+	display: inline-block;
+}

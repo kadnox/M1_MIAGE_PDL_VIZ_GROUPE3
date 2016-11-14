@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+		<link rel="stylesheet" href="style.css">
+		
+		<script type="text/javascript" src="userConfig.js"></script>
+
+		<title>PCM Example </title>
+	</head>
+	<body>
+		<div id="research" class="row">
+			<div id="feature" class="col s12 m12 l3 offset-l1 input-field">
+				<select id="select_feature">
+					<option value="0" disabled selected>Select feature</option>
+					<option value="1">Sensor Manufacturer</option>
+					<option value="2">Top continuous shooting speed (frames/sec)</option>
+					<option value="3">Metering pixels</option>
+					<option value="4">Sensor format</option>
+					<option value="5">Viewfinder coverage</option>
+					<option value="6">Focus point</option>
+					<option value="7">Model</option>
+					<option value="8">Live view</option>
+					<option value="9">Storage media</option>
+					<option value="10">Wifi</option>
+					<option value="11">ISO min</option>
+					<option value="12">Sensor type</option>
+					<option value="13">Image processor</option>
+					<option value="14">ISO max</option>
+					<option value="15">LCD monitor</option>
+					<option value="16">Release Date</option>
+					<option value="17">Movie mode</option>
+					<option value="18">Dimensions (mm)</option>
+					<option value="19">GPS</option>
+					<option value="20">ISO max (expanded)</option>
+					<option value="21">Viewfinder magnification</option>
+					<option value="22">Weight (g)</option>
+					<option value="23">Megapixel</option>
+					<option value="24">ISO min (expanded)</option>
+				</select>
+			</div>
+			<div id="product" class="col s12 m12 l7 offset-l1">
+				<div class="col s12 m5 center">
+					<div class="search_bar">
+						<form class="input-field card">
+							<input id="search_product_to_add" type="search" placeholder="Rechercher..." onKeyUp="searchProductToAdd()">
+							<label for="search">
+								<i class="material-icons">search</i>
+							</label>
+          				</form>
+					</div>
+
+					<div>
+						<ul id="list_products_to_add" class="collection">
+							<li class="collection-item no_result hide">
+								<span class="product_name">Aucun résultat</span>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D7200</span>
+								<a class="secondary-content" data-name="D7200" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D90</span>
+								<a class="secondary-content" data-name="D90" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D2H</span>
+								<a class="secondary-content" data-name="D2H" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D100</span>
+								<a class="secondary-content" data-name="D100" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D5300</span>
+								<a class="secondary-content" data-name="D5300" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D7100</span>
+								<a class="secondary-content" data-name="D7100" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D610</span>
+								<a class="secondary-content" data-name="D610" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D5200</span>
+								<a class="secondary-content" data-name="D5200" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D2Xs</span>
+								<a class="secondary-content" data-name="D2Xs" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D1X</span>
+								<a class="secondary-content" data-name="D1X" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D300S</span>
+								<a class="secondary-content" data-name="D300S" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D7000</span>
+								<a class="secondary-content" data-name="D7000" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D3300</span>
+								<a class="secondary-content" data-name="D3300" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D800</span>
+								<a class="secondary-content" data-name="D800" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D4</span>
+								<a class="secondary-content" data-name="D4" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D3</span>
+								<a class="secondary-content" data-name="D3" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D4S</span>
+								<a class="secondary-content" data-name="D4S" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D1</span>
+								<a class="secondary-content" data-name="D1" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D40X</span>
+								<a class="secondary-content" data-name="D40X" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D5100</span>
+								<a class="secondary-content" data-name="D5100" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D50</span>
+								<a class="secondary-content" data-name="D50" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D80</span>
+								<a class="secondary-content" data-name="D80" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D3200</span>
+								<a class="secondary-content" data-name="D3200" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D700</span>
+								<a class="secondary-content" data-name="D700" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D1H</span>
+								<a class="secondary-content" data-name="D1H" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D2Hs</span>
+								<a class="secondary-content" data-name="D2Hs" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D5000</span>
+								<a class="secondary-content" data-name="D5000" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D3100</span>
+								<a class="secondary-content" data-name="D3100" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D600</span>
+								<a class="secondary-content" data-name="D600" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D3X</span>
+								<a class="secondary-content" data-name="D3X" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D3000</span>
+								<a class="secondary-content" data-name="D3000" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D3S</span>
+								<a class="secondary-content" data-name="D3S" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D40</span>
+								<a class="secondary-content" data-name="D40" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D70s</span>
+								<a class="secondary-content" data-name="D70s" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D70</span>
+								<a class="secondary-content" data-name="D70" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">Df</span>
+								<a class="secondary-content" data-name="Df" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D750</span>
+								<a class="secondary-content" data-name="D750" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D300</span>
+								<a class="secondary-content" data-name="D300" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D5500</span>
+								<a class="secondary-content" data-name="D5500" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D2X</span>
+								<a class="secondary-content" data-name="D2X" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D810</span>
+								<a class="secondary-content" data-name="D810" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D200</span>
+								<a class="secondary-content" data-name="D200" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+							<li class="collection-item">
+								<span class="product_name">D60</span>
+								<a class="secondary-content" data-name="D60" onClick="addProduct(this)">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div id="arrows" class="col s12 m2 center">
+					<ul id="ul_arrows">
+						<li id="addAllButton">
+							<a class="secondary-content" onClick="addAllProduct()"><i class="material-icons">fast_forward</i></a>
+						</li>
+						<li id="removeAllButton">
+							<a class="secondary-content" onClick="removeAllProduct()"><i class="material-icons">fast_rewind</i></a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col s12 m5 center">
+					<div class="search_bar">
+						<form class="input-field card">
+							<input id="search_product_to_remove" type="search" placeholder="Rechercher..." onKeyUp="searchProductToRemove()">
+							<label for="search">
+								<i class="material-icons">search</i>
+							</label>
+          				</form>
+					</div>
+
+					<div>
+						<ul id="list_products_added" class="collection">
+							<li class="collection-item no_result hide">
+								<span class="product_name">Aucun résultat</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col s12 offset-s1">
+					Affichage des graphiques possibles (Icônes)
+				</div>
+			</div>
+		</div>
+
+		<div id="charts" class="row">
+		
+		<div class="divider"></div>
+			<div class="col s12">
+				Affichage des graphiques
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('select').material_select();
+		});
+	</script>
+</html>
