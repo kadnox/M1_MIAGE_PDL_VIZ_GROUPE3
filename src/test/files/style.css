@@ -1,5 +1,5 @@
 html, body {
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 #research {
@@ -56,3 +56,14 @@ html, body {
 #ul_arrows {
 	display: inline-block;
 }
+
+.chart_icon {
+	padding-left: 25px;
+	cursor: pointer;
+}
+
+canvas {
+	height: auto;
+	width: 100%;
+	border: 1px solid black;
+} 

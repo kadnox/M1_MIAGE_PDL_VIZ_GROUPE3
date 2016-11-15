@@ -8,13 +8,14 @@
 		<link rel="stylesheet" href="style.css">
 		
 		<script type="text/javascript" src="userConfig.js"></script>
+		<script type="text/javascript" src="chart.js"></script>
 
 		<title>PCM Example </title>
 	</head>
 	<body>
 		<div id="research" class="row">
 			<div id="feature" class="col s12 m12 l3 offset-l1 input-field">
-				<select id="select_feature">
+				<select id="select_feature" onChange='enableChartIcons()'>
 					<option value="0" disabled selected>Select feature</option>
 					<option value="1">Sensor Manufacturer</option>
 					<option value="2">Top continuous shooting speed (frames/sec)</option>
@@ -349,23 +350,35 @@
 						</ul>
 					</div>
 				</div>
-				<div class="col s12 offset-s1">
-					Affichage des graphiques possibles (Icônes)
+
+				<div class="col s12 center chart_icons hide">
+					<a class="chart_icon" onClick="generatePie()">
+						<img class="responsive-img" src="../../../images/pie_chart.png" alt="Pie chart">
+					</a>
+
+					<a class="chart_icon" onClick="generateBar()">
+						<img class="responsive-img" src="../../../images/bar_chart.png" alt="Bar chart">
+					</a>
+
+					<a class="chart_icon" onClick="generateRadar()">
+						<img class="responsive-img" src="../../../images/radar_chart.png" alt="Radar chart">
+					</a>
 				</div>
 			</div>
 		</div>
 
-		<div id="charts" class="row">
-		
-		<div class="divider"></div>
+		<div class="row">
+			<div class="divider"></div>
+
 			<div class="col s12">
-				Affichage des graphiques
+				<canvas id="charts"></canvas>
 			</div>
 		</div>
 	</body>
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {

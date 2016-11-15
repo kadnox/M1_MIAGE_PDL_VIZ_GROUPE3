@@ -18,12 +18,17 @@ function addOrRemoveClass(ul, search) {
 	for(var i = 0, li; li = ul.children[i]; i++) {
 		if(li.tagName == 'LI') {
 			var product_name = li.getElementsByClassName('product_name')[0].innerHTML;
+			var find = false;
 
 			if(product_name != "Aucun résultat") {
-				if(product_name.substring(0, search_length).toLowerCase() != search.toLowerCase()) {
-					li.classList.add('hide');
-				} else {
-					li.classList.remove('hide');
+				for(var j = 0; (j < product_name.length) && !find; j++) {
+					if(product_name.substring(j, search_length + j).toLowerCase() != search.toLowerCase()) {
+						li.classList.add('hide');
+						find = false;
+					} else {
+						li.classList.remove('hide');
+						find = true;
+					}
 				}
 			}
 	  	}
@@ -63,13 +68,11 @@ function addProduct(object) {
 	var product_position = object.getAttribute('data-position');
 	var list_products_added = document.getElementById('list_products_added');
 
-	var html_string = `
-		<li class="collection-item">
-			<span class="product_name">` +  product_name + `</span>
-			<a class="secondary-content left" data-name="` + product_name + `" data-position="` + product_position + `" onClick="removeProduct(this)">
-				<i class="material-icons">keyboard_arrow_left</i>
-			</a>
-		</li>`;
+	object.children[0].innerHTML = 'keyboard_arrow_left';
+	object.setAttribute( "onClick", "removeProduct(this)");
+	object.classList.add('left');
+
+	var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
 
 	//$(list_products_added).find(':nth-child(' + (product_position - 1) + ')').after(html_string);
 	//Tri des li. Ne marche pas, le product_position doit etre opti 
@@ -83,13 +86,11 @@ function removeProduct(object) {
 	var product_position = object.getAttribute('data-position');
 	var list_products_to_add = document.getElementById('list_products_to_add');
 
-	var html_string = `
-		<li class="collection-item">
-			<span class="product_name">` + product_name + `</span>
-			<a class="secondary-content" data-name="` + product_name + `" data-position="` + product_position + `" onClick="addProduct(this)">
-				<i class="material-icons">keyboard_arrow_right</i>
-			</a>
-		</li>`;
+	object.children[0].innerHTML = 'keyboard_arrow_right';
+	object.setAttribute( "onClick", "addProduct(this)");
+	object.classList.remove('left');
+
+	var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
 
 	//$(list_products_to_add).find(':nth-child(' + (product_position - 1) + ')').after(html_string);
 	list_products_to_add.innerHTML += html_string;
@@ -130,5 +131,17 @@ function removeAllProduct() {
 				removeProduct(li.children[1]);
 			}
 		}
+	}
+}
+
+function enableChartIcons() {
+	var div = document.getElementsByClassName('chart_icons')[0];
+	var select = document.getElementById('select_feature');
+	var selectValue = select.options[select.selectedIndex].value;
+
+	if(selectValue != 0) {
+		div.classList.remove('hide')
+	} else {
+		div.classList.add('hide')
 	}
 }
