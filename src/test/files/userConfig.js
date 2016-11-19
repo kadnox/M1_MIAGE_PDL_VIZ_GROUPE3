@@ -1,3 +1,7 @@
+function enableChartIcons() {
+	document.getElementsByClassName('chart_icons')[0].classList.remove('hide');
+}
+
 function searchProductToAdd() {
 	var ul = document.getElementById('list_products_to_add');
 	var search = document.getElementById('search_product_to_add').value;
@@ -131,17 +135,5 @@ function removeAllProduct() {
 				removeProduct(li.children[1]);
 			}
 		}
-	}
-}
-
-function enableChartIcons() {
-	var div = document.getElementsByClassName('chart_icons')[0];
-	var select = document.getElementById('select_feature');
-	var selectValue = select.options[select.selectedIndex].value;
-
-	if(selectValue != 0) {
-		div.classList.remove('hide')
-	} else {
-		div.classList.add('hide')
 	}
 }

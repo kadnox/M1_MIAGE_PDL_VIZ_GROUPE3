@@ -62,8 +62,7 @@ html, body {
 	cursor: pointer;
 }
 
-canvas {
-	height: auto;
-	width: 100%;
-	border: 1px solid black;
-} 
+canvas{
+	width: 100% !important;
+    height: auto !important;
+}
