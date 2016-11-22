@@ -129,157 +129,20 @@ public class GettingStartedTest {
 
 
             String newline = System.getProperty("line.separator");
+            int asciiInsecable= 160;
+            char insecable = (char) asciiInsecable;
+            int asciiUnderscore = 95;
+            char underscore = (char)asciiUnderscore;
 
 
 
             FileWriter writer = new FileWriter("src/test/files/resultat.html");
-/*
-            writer.write("<!DOCTYPE html>\n" +
-                    "<html>\n" +
-                    "\t<head>\n" +
-                    "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
-                    "\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\n" +
-                    "\t\t<link href=\"http://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n" +
-                    "\t\t<link rel=\"stylesheet\" href=\"../../../../materialize/css/materialize.min.css\">\n" +
-                    "\t\t<link rel=\"stylesheet\" href=\"style.css\">\n" +
-                    "\t\t\t<script type=\"text/javascript\" src=\"https://code.jquery.com/jquery-2.1.1.min.js\">\n" +
-                    "\n" +
-                    "</script>\n" +
-                    "\t<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css\">\n" +
-                    "\t <script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js\"></script>\n" +
-                    "<script type=\"text/javascript\">\n" +
-                    "\t\t$(document).ready(function() {\n" +
-                    "\t\t\t$('select').material_select();\n" +
-                    "\t\t});\n" +
-                    "\t</script>\n" +
-                    "\t\t<script type=\"text/javascript\">\n" +
-                    "\t\t\tfunction searchProductToAdd() {\n" +
-                    "\t\t\t\tvar ul = document.getElementById('toAdd');\n" +
-                    "\t\t\t\tvar search = document.getElementById('search_product_to_add').value;\n" +
-                    "\t\t\t\tvar search_length = search.length;\n" +
-                    "\n" +
-                    "\t\t\t\tconsole.log(search_length);\n" +
-                    "\n" +
-                    "\t\t\t\tfor(var i = 0, li; li = ul.children[i]; i++) {\n" +
-                    "\t\t\t\t\tif(li.tagName == 'LI') {\n" +
-                    "\t\t\t\t\t\tvar product_name = ul.children[i].getElementsByClassName('product_name')[0].innerHTML;\n" +
-                    "\n" +
-                    "\t\t\t\t\t\tif(product_name.substring(0, search_length) != search) {\n" +
-                    "\n" +
-                    "\t\t\t\t\t\t}\n" +
-                    "\t\t\t\t  \t}\n" +
-                    "\t\t\t\t}\n" +
-                    "\t\t\t}\n" +
-                    "\t\t</script>\n" +
-                    "\n" +
-                    "\t\t<title>$title</title>\n" +
-                    "\t</head>\n" +
-                    "\t<body>\n" +
-                    "\t\t<div class=\"row\" style=\"background-color: red\">\n" +
-                    "\t\t\t<div class=\"col s12 m3 offset-m1 input-field\" style=\"background-color: pink\">\n" +
-                    "\t\t\t\t<select id=\"feature\" multiple>\n" +
-
-                    "\t\t\t\t\t<option value=\"0\" disabled selected>Select feature</option>\n" );
-
-            //"\t\t\t\t\t<option value=\"1\">Feature 1</option>\n" +
-            for(int i =1; i<liste_feature.length+1;i++){
-                writer.write("<option value="+ i+"> "+ liste_feature[i-1] + "</option>" + newline);
-            }
-            writer.write( "\t\t\t\t</select>\n" +
-                    "\t\t\t</div>\n" +
-                    "\t\t\t<div class=\"col s12 m7 offset-m1\">\n" +
-                    "\t\t\t\t<div class=\"row\" style=\"background-color: blue\">\n" +
-                    "\t\t\t\t\t<div class=\"col s5 center\" style=\"background-color: green\">\n" +
-                    "\t\t\t\t\t\t<div class=\"search_bar\">\n" +
-                    "\t\t\t\t\t\t\t<form class=\"input-field\">\n" +
-                    "\t\t\t\t\t\t\t\t<input id=\"search_product_to_add\" type=\"search\" placeholder=\"Search...\" onKeyUp=\"searchProductToAdd()\">\n" +
-                    "\t\t\t\t\t\t\t\t<label for=\"search\">\n" +
-                    "\t\t\t\t\t\t\t\t\t<i class=\"material-icons\">search</i>\n" +
-                    "\t\t\t\t\t\t\t\t</label>\n" +
-                    "\t          \t\t\t\t</form>\n" +
-                    "\t\t\t\t\t\t</div>\n" +
-                    "\n" +
-                    "\t\t\t\t\t\t<div class=\"list_product_to_add\" style=\"background-color: white\">\n" +
-                    "\t\t\t\t\t\t\t<ul id=\"toAdd\" class=\"collection\">\n" );
-
-            for(int i = 0; i<22; i++){
-
-                Map temporaire =(Map)ht.get(liste_produit[i]); //
-                String ligne_html = "<div class='product_name' ";
-                for (int j =0 ; j<liste_feature.length; j++){
-                    String nom_feature= (String)liste_feature[j];
-                    nom_feature= nom_feature.toLowerCase();
-                    nom_feature = nom_feature.replace(" ", "_");
-                    String data_tmp = (String)temporaire.get(liste_feature[j]);
-                    ligne_html = ligne_html + "data-" + nom_feature + "='"+ data_tmp + "' ";
-                }
+            FileWriter writerjson = new FileWriter("src/test/files/resultat.json");
+            writerjson.write("{");
 
 
-                writer.write("<li class=\"collection-item\">" +newline);
-
-                writer.write(ligne_html +">"+ liste_produit[i] +"</div>"+ newline );
-                writer.write("<a href='#!' class='secondary-content'><i class='material-icons'>keyboard_arrow_right</i></a>"+ newline +"</li>");
 
 
-            }
-
-            writer.write(
-                    "\t\t\t\t\t\t\t</ul>\n" +
-                            "\t\t\t\t\t\t</div>\n" +
-                            "\t\t\t\t\t</div>\n" +
-                            "\t\t\t\t\t\n" +
-                            "\t\t\t\t\t<div class=\"col s2 center\" style=\"background-color: red\">\n" +
-                            "\t\t\t\t\t\t<div class=\"arrows\">\n" +
-                            "\t\t\t\t\t\t\t<ul>\n" +
-                            "\t\t\t\t\t\t\t\t<li>\n" +
-                            "\t\t\t\t\t\t\t\t\t<a href=\"#!\" class=\"secondary-content\"><i class=\"material-icons\">fast_forward</i></a>\n" +
-                            "\t\t\t\t\t\t\t\t</li>\n" +
-                            "\t\t\t\t\t\t\t\t<li>\n" +
-                            "\t\t\t\t\t\t\t\t\t<a href=\"#!\" class=\"secondary-content\"><i class=\"material-icons\">fast_rewind</i></a>\n" +
-                            "\t\t\t\t\t\t\t\t</li>\n" +
-                            "\t\t\t\t\t\t\t</ul>\n" +
-                            "\t\t\t\t\t\t</div>\n" +
-                            "\t\t\t\t\t</div>\n" +
-                            "\n" +
-                            "\t\t\t\t\t<div class=\"col s5 center\" style=\"background-color: yellow\">\n" +
-                            "\t\t\t\t\t\t<div class=\"search_bar\">\n" +
-                            "\t\t\t\t\t\t\t<form class=\"input-field\">\n" +
-                            "\t\t\t\t\t\t\t\t<input id=\"search_product_to_remove\" type=\"search\" placeholder=\"Search...\" onKeyUp=\"search_product_to_remove()\">\n" +
-                            "\t\t\t\t\t\t\t\t<label for=\"search\">\n" +
-                            "\t\t\t\t\t\t\t\t\t<i class=\"material-icons\">search</i>\n" +
-                            "\t\t\t\t\t\t\t\t</label>\n" +
-                            "\t          \t\t\t\t</form>\n" +
-                            "\t\t\t\t\t\t</div>\n" +
-                            "\n" +
-                            "\t\t\t\t\t\t<div class=\"list_product_view\" style=\"background-color: white\">\n" +
-                            "\t\t\t\t\t\t\t<ul id=\"toremove\" class=\"collection\">\n" );
-            for (int i= 23; i<43;i++){
-                writer.write("<li class='collection-item'>" + liste_produit[i] + newline);
-                writer.write("<a href=\"#!\" class=\"secondary-content left\"><i class=\"material-icons\">keyboard_arrow_left</i></a>" + newline + "</li>" + newline);
-            }
-
-            writer.write(  "\t\t\t\t\t\t\t</ul>\n" +
-                    "\t\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t</div>\n" +
-                    "\t\t\t</div>\n" +
-                    "\t\t\t<div class=\"col s6 offset-s6\">\n" +
-                    "\t\t\t\t$chart\n" +
-                    "\t\t\t</div>\n" +
-                    "\t\t</div>\n" +
-                    "\t\t<div class=\"row\">\n" +
-                    "\t\t\t<div class=\"col s12\" style=\"background-color: pink\">\n" +
-                    "\t\t\t\taa\n" +
-                    "\t\t\t</div>\n" +
-                    "\t\t</div>\n" +
-                    "\t</body>\n" +
-                    "\n" +
-                    "\n" +
-                    "\n" +
-                    "\t\n" +
-                    "</html>\n");
-
-*/
             writer.write("<!DOCTYPE html>\n" +
                     "<html>\n" +
                     "\t<head>\n" +
@@ -290,15 +153,15 @@ public class GettingStartedTest {
                     "\t\t<link rel=\"stylesheet\" href=\"style.css\">\n" +
                     "\t\t\n" +
                     "\t\t<script type=\"text/javascript\" src=\"userConfig.js\"></script>\n" +
+                    "\t\t<script type=\"text/javascript\" src=\"chart.js\"></script>\n" +
                     "\n" +
                     "\t\t<title>PCM Example </title>\n" +
                     "\t</head>\n" +
                     "\t<body>\n" +
                     "\t\t<div id=\"research\" class=\"row\">\n" +
                     "\t\t\t<div id=\"feature\" class=\"col s12 m12 l3 offset-l1 input-field\">\n" +
-                    "\t\t\t\t<select id=\"select_feature\">\n" +
+                    "\t\t\t\t<select id=\"select_feature\" onChange='enableChartIcons()'>\n" +
                     "\t\t\t\t\t<option value=\"0\" disabled selected>Select feature</option>");
-
             for(int i =1; i<liste_feature.length+1;i++){
                 writer.write("<option value="+ i+"> "+ liste_feature[i-1] + "</option>" + newline);
             }
@@ -326,27 +189,46 @@ public class GettingStartedTest {
 
                 writer.write("<li class=\"collection-item\">");
                 Map temporaire =(Map)ht.get(liste_produit[i]); //
+                writerjson.write("\""+liste_produit[i]+"\" : \n {");
                 String ligne_html = "<span class='product_name' ";
+
                 for (int j =0 ; j<liste_feature.length; j++){
                     String nom_feature= (String)liste_feature[j];
-                    nom_feature= nom_feature.toLowerCase();
-                    nom_feature = nom_feature.replace(" ", "_");
                     String data_tmp = (String)temporaire.get(liste_feature[j]);
+                    data_tmp = data_tmp.replace("'"," ").replace('"',' ');
+                    if(j<liste_feature.length-1){
+                        writerjson.write("\""+ nom_feature +"\":\"" +data_tmp + "\", \n");
+                    }
+                    else{
+                        writerjson.write("\""+ nom_feature +"\":" +data_tmp + "\n ");
+                    }
+                    nom_feature= nom_feature.toLowerCase().replace("'","_").replace('"','_').replace(insecable,underscore).replace(" ","_").replace("/","_par_");
+
+
+
+                    data_tmp = data_tmp.replace("'","_").replace('"','_').replace(insecable,underscore).replace(" ","_");
                     ligne_html = ligne_html + "data-" + nom_feature + "='"+ data_tmp + "' ";
                 }
 
 
+                String  produit = liste_produit[i];
+                produit = produit.replace("'","_").replace('"','_').replace(insecable,underscore).replace(" ","_");
 
 
                 writer.write(ligne_html +">"+ liste_produit[i] +"</span>"+ newline );
-                writer.write("<a class=\"secondary-content\" data-name="+ liste_produit[i] +" onClick=\"addProduct(this)\">\n" +
+                writer.write("<a class=\"secondary-content\" data-name="+ produit +" onClick=\"addProduct(this)\">\n" +
                         "\t\t\t\t\t\t\t\t\t<i class=\"material-icons\">keyboard_arrow_right</i>\n" +
                         "\t\t\t\t\t\t\t\t</a>\n" +
                         "\t\t\t\t\t\t\t</li>");
 
-
+               if(i <liste_produit.length-1){
+                       writerjson.write("\n},");}
+                else{
+                   writerjson.write("\n}");
+               }
 
             }
+
             writer.write("</ul>\n" +
                     "\t\t\t\t\t</div>\n" +
                     "\t\t\t\t</div>\n" +
@@ -380,23 +262,35 @@ public class GettingStartedTest {
                     "\t\t\t\t\t\t</ul>\n" +
                     "\t\t\t\t\t</div>\n" +
                     "\t\t\t\t</div>\n" +
-                    "\t\t\t\t<div class=\"col s12 offset-s1\">\n" +
-                    "\t\t\t\t\tAffichage des graphiques possibles (Icônes)\n" +
+                    "\n" +
+                    "\t\t\t\t<div class=\"col s12 center chart_icons hide\">\n" +
+                    "\t\t\t\t\t<a class=\"chart_icon\" onClick=\"generatePie()\">\n" +
+                    "\t\t\t\t\t\t<img class=\"responsive-img\" src=\"../../../images/pie_chart.png\" alt=\"Pie chart\">\n" +
+                    "\t\t\t\t\t</a>\n" +
+                    "\n" +
+                    "\t\t\t\t\t<a class=\"chart_icon\" onClick=\"generateBar()\">\n" +
+                    "\t\t\t\t\t\t<img class=\"responsive-img\" src=\"../../../images/bar_chart.png\" alt=\"Bar chart\">\n" +
+                    "\t\t\t\t\t</a>\n" +
+                    "\n" +
+                    "\t\t\t\t\t<a class=\"chart_icon\" onClick=\"generateRadar()\">\n" +
+                    "\t\t\t\t\t\t<img class=\"responsive-img\" src=\"../../../images/radar_chart.png\" alt=\"Radar chart\">\n" +
+                    "\t\t\t\t\t</a>\n" +
                     "\t\t\t\t</div>\n" +
                     "\t\t\t</div>\n" +
                     "\t\t</div>\n" +
                     "\n" +
-                    "\t\t<div id=\"charts\" class=\"row\">\n" +
-                    "\t\t\n" +
-                    "\t\t<div class=\"divider\"></div>\n" +
+                    "\t\t<div class=\"row\">\n" +
+                    "\t\t\t<div class=\"divider\"></div>\n" +
+                    "\n" +
                     "\t\t\t<div class=\"col s12\">\n" +
-                    "\t\t\t\tAffichage des graphiques\n" +
+                    "\t\t\t\t<canvas id=\"charts\"></canvas>\n" +
                     "\t\t\t</div>\n" +
                     "\t\t</div>\n" +
                     "\t</body>\n" +
                     "\n" +
                     "\t<script type=\"text/javascript\" src=\"https://code.jquery.com/jquery-2.1.1.min.js\"></script>\n" +
                     "  \t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js\"></script>\n" +
+                    "  \t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js\" type=\"text/javascript\"></script>\n" +
                     "\n" +
                     "\t<script type=\"text/javascript\">\n" +
                     "\t\t$(document).ready(function() {\n" +
@@ -404,15 +298,27 @@ public class GettingStartedTest {
                     "\t\t});\n" +
                     "\t</script>\n" +
                     "</html>");
-
+            writerjson.write("}");
             writer.close();
+            writerjson.close();
+            /*
+            String soucis =(String) liste_feature[1];
+
+            for(int i =0; i< soucis.length(); i ++){
+             char charprobleme=   soucis.charAt(i);
+              int  codeAscii = (int) charprobleme;
+                System.out.println("la lettre " + charprobleme + " a pour code ascci " + codeAscii);
+            }
+
+            String espace = "_";
+            char espacechar = espace.charAt(0);
+            int codeEspace = (int) espacechar;
+            System.out.println(" l'espace a pour code ascii" + codeEspace);
 
 
-
-
-
+            */
         }
 
-        // ajout de htsa .
+        // ajout de htsa . 160 insécable  32 l espace   95 _
     }
 }
