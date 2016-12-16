@@ -7,6 +7,7 @@ import java.util.*;
  *
  */
 public interface Analyse {
-   String getFeatureType();
+   String getFeatureType(String feature);
    Map getTableCompare();
+   Map getMapOccFeature(String feature);
 }
