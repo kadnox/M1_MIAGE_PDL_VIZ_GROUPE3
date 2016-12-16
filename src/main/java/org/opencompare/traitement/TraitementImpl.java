@@ -13,13 +13,19 @@ import java.util.*;
  */
 public class TraitementImpl implements Traitement {
     Map<String, Map<String, String>> data;
+    Map<String, ArrayList<String>> dataInitial;
 
     public TraitementImpl() {
         this.data = new Hashtable<String, Map<String, String>>();
+        this.dataInitial = new HashMap<>();
     }
 
     public Map getData() {
         return this.data;
+    }
+
+    public Map getDataInitial() {
+        return this.dataInitial;
     }
 
     public void setData(File pcmFile) throws IOException {
@@ -53,6 +59,47 @@ public class TraitementImpl implements Traitement {
             }
         }
     }
+
+
+    public void setDataInitial(File pcmFile) throws IOException {
+        // On gère le format de fichier
+        PCMLoader loader = new KMFJSONLoader();
+
+        List<PCMContainer> pcmContainers = loader.load(pcmFile);
+        for (PCMContainer pcmContainer : pcmContainers) {
+            // On récupère la PCM
+            PCM pcm = pcmContainer.getPcm();
+            List<String> produit = new ArrayList<>();
+            for (Product product : pcm.getProducts()) {
+                produit.add(product.getKeyContent());
+            }
+            this.dataInitial.put("Product", (ArrayList) produit);
+            for (Feature feature : pcm.getConcreteFeatures()) {
+                this.dataInitial.put(feature.getName(), new ArrayList<>());
+            }
+            // On parcourt les cellules de la PCM
+            for (Product product : pcm.getProducts()) {
+                // On crée la liste contenu dans la liste
+                for (Feature feature : pcm.getConcreteFeatures()) {
+
+                    List<String> liste = (ArrayList) this.getDataInitial().get(feature.getName());
+                    // Find the cell corresponding to the current feature and product
+                    Cell cell = product.findCell(feature);
+
+                    // Récupération de l'information contenu dans la cellule
+                    String content = cell.getContent();
+                    if (!content.equals(feature.getName())) {
+                        liste.add(content);
+                        this.dataInitial.put(feature.getName(), (ArrayList) liste);
+                    }
+
+                }
+                // On insère la clé et la valeur (L'arrayList) dans le hashtable
+
+            }
+        }
+    }
+
 
     @Override
     public ArrayList<String> getFeatureListe() {
