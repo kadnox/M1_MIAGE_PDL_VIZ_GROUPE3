@@ -76,7 +76,6 @@ public class TraitementImpl implements Traitement {
             for (Product product : pcm.getProducts()) {
                 // On crée la liste contenu dans la liste
                 for (Feature feature : pcm.getConcreteFeatures()) {
-                    System.out.println(product.getCells());
                     List<String> liste = (ArrayList) this.getDataInitial().get(feature.getName());
                     // Find the cell corresponding to the current feature and product
                     Cell cell = product.findCell(feature);
