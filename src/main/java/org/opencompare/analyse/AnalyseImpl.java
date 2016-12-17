@@ -1,5 +1,6 @@
 package org.opencompare.analyse;
 
+import org.opencompare.traitement.Traitement;
 import org.opencompare.traitement.TraitementImpl;
 
 import java.util.*;
@@ -8,10 +9,10 @@ import java.util.*;
  * Created by Fonck on 07/11/2016.
  */
 public class AnalyseImpl implements Analyse {
-    private TraitementImpl traitement;
+    private Traitement traitement;
     private ArrayList<String> liste = new ArrayList<>();
 
-    public AnalyseImpl(TraitementImpl t) {
+    public AnalyseImpl(Traitement t) {
         this.traitement = t;
     }
 
