@@ -21,6 +21,7 @@ public class AnalyseImpl implements Analyse {
         return null;
     }
 
+    @Override
     public Map getTableCompare() {
         return traitement.getDataInitial();
     }
@@ -43,14 +44,14 @@ public class AnalyseImpl implements Analyse {
         //System.out.println(mapOccFeature);
         return mapOccFeature;
     }
-
+    @Override
     public boolean isBinaire(String feature){
         Map<String,Integer> mapOccFeature = getMapOccFeature(feature);
         System.out.println(mapOccFeature);
         Collection col = mapOccFeature.values();
         return col.size() <= 3;
     }
-
+    @Override
     public boolean isInteger(String feature){
         ArrayList<String> laListe = (ArrayList<String>) getTableCompare().get(new String(feature));
         Iterator<String> it = laListe.iterator();
@@ -62,7 +63,7 @@ public class AnalyseImpl implements Analyse {
         }
         return isNumber;
     }
-
+    @Override
     public boolean isString(String feature){
         ArrayList<String> laListe = (ArrayList<String>) getTableCompare().get(new String(feature));
         System.currentTimeMillis();
@@ -75,7 +76,7 @@ public class AnalyseImpl implements Analyse {
         }
         return isString;
     }
-
+    @Override
     public boolean isDateUK(String feature){
         ArrayList<String> laListe = (ArrayList<String>) getTableCompare().get(new String(feature));
         Iterator<String> it = laListe.iterator();
@@ -83,15 +84,29 @@ public class AnalyseImpl implements Analyse {
         boolean isDate = true;
         while (it.hasNext() && isDate){
             value = it.next();
-            isDate = value.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}") || value.matches("[0-9]{4}-[0-9]{2}");
+            isDate = value.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}") || value.matches("[0-9]{4}-[0-9]{2}") || correctYear(value);
+        }
+        return isDate;
+    }
+
+    @Override
+    public boolean isDateFR(String feature) {
+        ArrayList<String> laListe = (ArrayList<String>) getTableCompare().get(new String(feature));
+        Iterator<String> it = laListe.iterator();
+        String value;
+        boolean isDate = true;
+        while (it.hasNext() && isDate){
+            value = it.next();
+            isDate = value.matches("[0-9]{2}-[0-9]{2}-[0-9]{4}") || value.matches("[0-9]{2}-[0-9]{4}") || correctYear(value);
         }
         return isDate;
     }
 
     public boolean correctYear(String year){
         Calendar cal = Calendar.getInstance();
-        cal.getWeekYear();
-        return year.matches("[0-9]{4} || [0-9]{2}");
+        int today = cal.getWeekYear();
+        int y = new Integer(year);
+        return year.matches("[0-9]{4} || [0-9]{2}") && (y <today);
     }
 
     public boolean isPercent(String feature){
