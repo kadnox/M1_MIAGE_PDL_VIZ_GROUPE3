@@ -69,11 +69,6 @@ public class TraitementImpl implements Traitement {
         for (PCMContainer pcmContainer : pcmContainers) {
             // On récupère la PCM
             PCM pcm = pcmContainer.getPcm();
-            List<String> produit = new ArrayList<>();
-            for (Product product : pcm.getProducts()) {
-                produit.add(product.getKeyContent());
-            }
-            this.dataInitial.put("Product", (ArrayList) produit);
             for (Feature feature : pcm.getConcreteFeatures()) {
                 this.dataInitial.put(feature.getName(), new ArrayList<>());
             }
@@ -81,7 +76,7 @@ public class TraitementImpl implements Traitement {
             for (Product product : pcm.getProducts()) {
                 // On crée la liste contenu dans la liste
                 for (Feature feature : pcm.getConcreteFeatures()) {
-
+                    System.out.println(product.getCells());
                     List<String> liste = (ArrayList) this.getDataInitial().get(feature.getName());
                     // Find the cell corresponding to the current feature and product
                     Cell cell = product.findCell(feature);
