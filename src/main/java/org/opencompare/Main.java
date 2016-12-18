@@ -3,12 +3,13 @@ package org.opencompare;
 import org.apache.commons.io.*;
 import org.opencompare.affichage.Affichage;
 import org.opencompare.affichage.AffichageImpl;
-import org.opencompare.analyse.Analyse;
-import org.opencompare.analyse.AnalyseImpl;
 import org.opencompare.traitement.Traitement;
 import org.opencompare.traitement.TraitementImpl;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
+
 import java.util.Scanner;
 
 public class Main {
@@ -35,25 +36,22 @@ public class Main {
                             boolean validPath = new File(path).exists();
 
                             if(validPath && path.contains(".pcm")) {
-                                String pathModified = path.replace("\\", "/");
-                                String[] pathSplit = pathModified.split("/");
-
-                                String title = pathSplit[pathSplit.length - 1].substring(0,  pathSplit[pathSplit.length - 1].length() - 4);
-
                                 Traitement traitement = new TraitementImpl();
                                 boolean isPCM = traitement.setData(new File(path));
+                                boolean blankPCM = traitement.isPcmExploitableBlank();
 
-                                if(isPCM) {
-                                    Analyse analyse = new AnalyseImpl(traitement);
+                                if(isPCM && blankPCM) {
+                                    String pathModified = path.replace("\\", "/");
+                                    String[] pathSplit = pathModified.split("/");
+                                    String title = pathSplit[pathSplit.length - 1].substring(0,  pathSplit[pathSplit.length - 1].length() - 4);
 
-                                    Affichage aff = new AffichageImpl(traitement, analyse);
+                                    Affichage aff = new AffichageImpl(traitement);
 
-                                    File folderSource = new File("");
-
+                                    File folderSource;
+                                    //Recherche d'un nom de dossier
                                     if(new File(dir + "/" + title).exists()) {
                                         int i = 1;
 
-                                        //Recherche d'un nom de dossier
                                         while(new File(dir + "/" + title + " (" + i + ")").exists()) {
                                             i++;
                                         }
@@ -63,29 +61,27 @@ public class Main {
                                         folderSource = new File(dir + "/" + title);
                                     }
 
+                                    //Dossier source des ressources
                                     File folderImg = new File(folderSource, "images");
                                     File folderCSS = new File(folderSource, "css");
                                     File folderJS = new File(folderSource, "js");
 
+                                    //Création des dossiers
                                     if(folderSource.mkdir() && folderCSS.mkdir() && folderJS.mkdir() && folderImg.mkdir()) {
-                                        InputStream inputCss = Main.class.getClass().getResourceAsStream("/templates/css/style.css");
-                                        FileWriter cssWriter = new FileWriter(folderCSS.getAbsolutePath() + "/style.css");
-                                        cssWriter.write(IOUtils.toString(inputCss));
-                                        cssWriter.close();
+                                        //Copie des ressources dans les dossiers
+                                        copyImageResources(folderImg);
+                                        copyTemplateResources(folderCSS, folderJS);
 
-                                        InputStream inputChartJs = Main.class.getClass().getResourceAsStream("/templates/js/chart.js");
-                                        FileWriter jsChartWriter = new FileWriter(folderJS.getAbsolutePath() + "/chart.js");
-                                        jsChartWriter.write(IOUtils.toString(inputChartJs));
-                                        jsChartWriter.close();
-
-                                        InputStream inputUserJs = Main.class.getClass().getResourceAsStream("/templates/js/userConfig.js");
-                                        FileWriter jsUserWriter = new FileWriter(folderJS.getAbsolutePath() + "/userConfig.js");
-                                        jsUserWriter.write(IOUtils.toString(inputUserJs));
-                                        jsUserWriter.close();
-
+                                        //Génération de la visualisation
                                         aff.HTMLGenerator(folderSource, title);
                                     } else {
                                         System.out.println("Echec de la génération du dossier.");
+                                    }
+                                } else {
+                                    if(!isPCM) {
+                                        System.out.println("Votre fichier n'est pas une PCM.");
+                                    } else if(!blankPCM) {
+                                        System.out.println("Votre PCM n'est pas exploitable.");
                                     }
                                 }
                             } else {
@@ -126,5 +122,33 @@ public class Main {
                          "java -jar " + dir + "/M1_MIAGE_PDL_VIZ_GROUPE3.jar menu").start();
             }
         }
+    }
+
+    private static void copyImageResources(File folderImg) throws IOException {
+        BufferedImage buff = ImageIO.read(Main.class.getClass().getResourceAsStream("/images/bar_chart.png"));
+        ImageIO.write(buff, "png", new File(folderImg.getAbsolutePath() + "/bar_chart.png"));
+
+        buff = ImageIO.read(Main.class.getClass().getResourceAsStream("/images/pie_chart.png"));
+        ImageIO.write(buff, "png", new File(folderImg.getAbsolutePath() + "/pie_chart.png"));
+
+        buff = ImageIO.read(Main.class.getClass().getResourceAsStream("/images/radar_chart.png"));
+        ImageIO.write(buff, "png", new File(folderImg.getAbsolutePath() + "/radar_chart.png"));
+    }
+
+    private static void copyTemplateResources(File folderCSS, File folderJS) throws IOException {
+        InputStream inputCss = Main.class.getClass().getResourceAsStream("/templates/css/style.css");
+        FileWriter cssWriter = new FileWriter(folderCSS.getAbsolutePath() + "/style.css");
+        cssWriter.write(IOUtils.toString(inputCss));
+        cssWriter.close();
+
+        InputStream inputChartJs = Main.class.getClass().getResourceAsStream("/templates/js/chart.js");
+        FileWriter jsChartWriter = new FileWriter(folderJS.getAbsolutePath() + "/chart.js");
+        jsChartWriter.write(IOUtils.toString(inputChartJs));
+        jsChartWriter.close();
+
+        InputStream inputUserJs = Main.class.getClass().getResourceAsStream("/templates/js/userConfig.js");
+        FileWriter jsUserWriter = new FileWriter(folderJS.getAbsolutePath() + "/userConfig.js");
+        jsUserWriter.write(IOUtils.toString(inputUserJs));
+        jsUserWriter.close();
     }
 }

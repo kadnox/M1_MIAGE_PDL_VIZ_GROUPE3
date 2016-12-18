@@ -16,7 +16,7 @@ public class TraitementImpl implements Traitement {
     Map<String, ArrayList<String>> dataInitial;
 
     public TraitementImpl() {
-        this.data = new Hashtable<String, Map<String, String>>();
+        this.data = new Hashtable<>();
         this.dataInitial = new HashMap<>();
     }
 
@@ -28,7 +28,7 @@ public class TraitementImpl implements Traitement {
         return this.dataInitial;
     }
 
-    public boolean setData(File pcmFile) throws IOException {
+    public boolean setData(File pcmFile) {
         // On gère le format de fichier
         try {
             PCMLoader loader = new KMFJSONLoader();
@@ -59,13 +59,11 @@ public class TraitementImpl implements Traitement {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Votre fichier n'est pas une PCM.");
             return false;
         }
 
         return true;
     }
-
 
     public void setDataInitial(File pcmFile) throws IOException {
         // On gère le format de fichier
@@ -94,8 +92,6 @@ public class TraitementImpl implements Traitement {
                     }
 
                 }
-                // On insère la clé et la valeur (L'arrayList) dans le hashtable
-
             }
         }
     }
@@ -110,5 +106,37 @@ public class TraitementImpl implements Traitement {
     @Override
     public ArrayList<String> getProductListe() {
         return new ArrayList<String>(this.data.keySet());
+    }
+
+    public boolean isPcmExploitableBlank() {
+        Set<String> productKeys = data.keySet();
+        Iterator<String> it1 = productKeys.iterator();
+
+        double nbBox = 0;
+        double blank = 0;
+        while(it1.hasNext()) {
+            String product = it1.next();
+            Map<String, String> featuresMap = data.get(product);
+
+            Set<String> featureKeys = featuresMap.keySet();
+            Iterator<String> it2 = featureKeys.iterator();
+
+            while(it2.hasNext()) {
+                String feature = it2.next();
+                String value = featuresMap.get(feature);
+
+                if(value.equals("")) {
+                    blank++;
+                }
+
+                nbBox++;
+            }
+        }
+
+        if(((blank/nbBox) * 100.00) >= 33.00) {
+            return false;
+        }
+
+        return true;
     }
 }

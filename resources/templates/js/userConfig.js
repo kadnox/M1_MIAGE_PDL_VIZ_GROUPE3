@@ -1,3 +1,9 @@
+function disabledUselessProduct() {
+    var optionName = document.getElementById('select_feature').value;
+
+    
+}
+
 function enableChartIcons() {
 	document.getElementsByClassName('chart_icons')[0].classList.remove('hide');
 }
@@ -78,16 +84,11 @@ function addProduct(object) {
 
 	var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
 
-	//$(list_products_added).find(':nth-child(' + (product_position - 1) + ')').after(html_string);
-	//Tri des li. Ne marche pas, le product_position doit etre opti 
-	//Le precedent n'est pas forcement dans la liste ou l'on veut ajouter l'getElementById
 	list_products_added.innerHTML += html_string;
 	removeElement(object);
 }
 
 function removeProduct(object) {
-	var product_name = object.getAttribute('data-name');
-	var product_position = object.getAttribute('data-position');
 	var list_products_to_add = document.getElementById('list_products_to_add');
 
 	object.children[0].innerHTML = 'keyboard_arrow_right';
@@ -96,7 +97,6 @@ function removeProduct(object) {
 
 	var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
 
-	//$(list_products_to_add).find(':nth-child(' + (product_position - 1) + ')').after(html_string);
 	list_products_to_add.innerHTML += html_string;
 	removeElement(object);
 }

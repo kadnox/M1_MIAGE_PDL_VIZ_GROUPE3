@@ -1,107 +1,106 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-	<link rel="stylesheet" href="css/style.css">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+		<link rel="stylesheet" href="css/style.css">
 
-	<script type="text/javascript" src="js/userConfig.js"></script>
-	<script type="text/javascript" src="js/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+		<script type="text/javascript" src="js/userConfig.js"></script>
+		<script type="text/javascript" src="js/chart.js"></script>
 
-    <title>$title</title>
-</head>
-<body>
-<div id="research" class="row">
-	<div id="feature" class="col s12 m12 l3 offset-l1 input-field">
-		<select id="select_feature" onChange='enableChartIcons()'>
-			<option value="0" disabled selected>Select feature</option>
-			$feature
-		</select>
-	</div>
-	<div id="product" class="col s12 m12 l7 offset-l1">
-		<div class="col s12 m5 center">
-			<div class="search_bar">
-				<form class="input-field card">
-					<input id="search_product_to_add" type="search" placeholder="Rechercher..." onKeyUp="searchProductToAdd()">
-					<label for="search">
-						<i class="material-icons">search</i>
-					</label>
-				</form>
+		<title>$title</title>
+	</head>
+	<body>
+		<div id="research" class="row">
+			<div id="feature" class="col s12 m12 l3 offset-l1 input-field">
+				<select id="select_feature" onChange='enableChartIcons(); disabledUselessProduct()'>
+					<option value="0" disabled selected>Select feature</option>
+					$feature
+				</select>
 			</div>
+			<div id="product" class="col s12 m12 l7 offset-l1">
+				<div class="col s12 m5 center">
+					<div class="search_bar">
+						<form class="input-field card">
+							<input id="search_product_to_add" type="search" placeholder="Rechercher..." onKeyUp="searchProductToAdd()">
+							<label for="search">
+								<i class="material-icons">search</i>
+							</label>
+						</form>
+					</div>
 
-			<div>
-				<ul id="list_products_to_add" class="collection">
-					<li class="collection-item no_result hide">
-						<span class="product_name">Aucun résultat</span>
-					</li>
-					$product
-				</ul>
+					<div>
+						<ul id="list_products_to_add" class="collection">
+							<li class="collection-item no_result hide">
+								<span class="product_name">Aucun résultat</span>
+							</li>
+							$product
+						</ul>
+					</div>
+				</div>
+
+				<div id="arrows" class="col s12 m2 center">
+					<ul id="ul_arrows">
+						<li id="addAllButton">
+							<a class="secondary-content" onClick="addAllProduct()"><i class="material-icons">fast_forward</i></a>
+						</li>
+						<li id="removeAllButton">
+							<a class="secondary-content" onClick="removeAllProduct()"><i class="material-icons">fast_rewind</i></a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col s12 m5 center">
+					<div class="search_bar">
+						<form class="input-field card">
+							<input id="search_product_to_remove" type="search" placeholder="Rechercher..." onKeyUp="searchProductToRemove()">
+							<label for="search">
+								<i class="material-icons">search</i>
+							</label>
+						</form>
+					</div>
+
+					<div>
+						<ul id="list_products_added" class="collection">
+							<li class="collection-item no_result hide">
+								<span class="product_name">Aucun résultat</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col s12 center chart_icons hide">
+					<a class="chart_icon" onClick="generatePie()">
+						<img class="responsive-img" src="images/pie_chart.png" alt="Pie chart">
+					</a>
+
+					<a class="chart_icon" onClick="generateBar()">
+						<img class="responsive-img" src="images/bar_chart.png" alt="Bar chart">
+					</a>
+
+					<a class="chart_icon" onClick="generateRadar()">
+						<img class="responsive-img" src="images/radar_chart.png" alt="Radar chart">
+					</a>
+				</div>
 			</div>
 		</div>
 
-		<div id="arrows" class="col s12 m2 center">
-			<ul id="ul_arrows">
-				<li id="addAllButton">
-					<a class="secondary-content" onClick="addAllProduct()"><i class="material-icons">fast_forward</i></a>
-				</li>
-				<li id="removeAllButton">
-					<a class="secondary-content" onClick="removeAllProduct()"><i class="material-icons">fast_rewind</i></a>
-				</li>
-			</ul>
-		</div>
-
-		<div class="col s12 m5 center">
-			<div class="search_bar">
-				<form class="input-field card">
-					<input id="search_product_to_remove" type="search" placeholder="Rechercher..." onKeyUp="searchProductToRemove()">
-					<label for="search">
-						<i class="material-icons">search</i>
-					</label>
-				</form>
-			</div>
-
-			<div>
-				<ul id="list_products_added" class="collection">
-					<li class="collection-item no_result hide">
-						<span class="product_name">Aucun résultat</span>
-					</li>
-				</ul>
+		<div class="row">
+			<div id="canvas_container" class="col s12">
+				<canvas id="charts"/>
 			</div>
 		</div>
 
-		<div class="col s12 center chart_icons hide">
-			<a class="chart_icon" onClick="generatePie()">
-				<img class="responsive-img" src="images/pie_chart.png" alt="Pie chart">
-			</a>
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+	</body>
 
-			<a class="chart_icon" onClick="generateBar()">
-				<img class="responsive-img" src="images/bar_chart.png" alt="Bar chart">
-			</a>
-
-			<a class="chart_icon" onClick="generateRadar()">
-				<img class="responsive-img" src="images/radar_chart.png" alt="Radar chart">
-			</a>
-		</div>
-	</div>
-</div>
-
-<div class="row">
-	<div id="canvas_container" class="col s12">
-		<canvas id="charts"/>
-	</div>
-</div>
-</body>
-
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('select').material_select();
-	});
-</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('select').material_select();
+		});
+	</script>
 </html>

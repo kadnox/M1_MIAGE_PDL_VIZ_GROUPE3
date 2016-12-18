@@ -49,6 +49,11 @@ html, body {
 	color: #757575;
 }
 
+.disabled {
+    pointer-events: none;
+    background-color: #DFDFDF !important;
+}
+
 #arrows {
 	background-color: white;
 }

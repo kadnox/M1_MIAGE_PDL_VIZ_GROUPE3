@@ -19,7 +19,7 @@ public class AffichageImpl implements Affichage {
     private final String NEW_LINE = System.getProperty("line.separator");
     private Traitement traitement;
 
-    public AffichageImpl(Traitement t, Analyse a) throws IOException {
+    public AffichageImpl(Traitement t) throws IOException {
         this.traitement = t;
     }
 

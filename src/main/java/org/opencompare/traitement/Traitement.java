@@ -13,11 +13,13 @@ public interface Traitement {
 
     Map getDataInitial();
 
-    boolean setData(File pcmFile)  throws IOException;
+    boolean setData(File pcmFile);
 
     void setDataInitial(File pcmFile) throws IOException;
 
     ArrayList<String> getFeatureListe();
 
     ArrayList<String> getProductListe();
+
+    boolean isPcmExploitableBlank();
 }
