@@ -58,7 +58,7 @@ public class AffichageImpl implements Affichage {
             product = product + "<li class=\"collection-item\">";
             Map temporaire = (Map) data.get(products.get(i));
             writerjson = writerjson + "\"" + products.get(i) + "\" : \n {";
-            String ligne_html = "<span class='product_name' ";
+            String ligne_html = "<span class='product_name present' ";
 
             for (int j = 0; j < features.size(); j++) {
                 String nom_feature = features.get(j);
