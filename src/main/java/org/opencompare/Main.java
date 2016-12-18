@@ -1,6 +1,6 @@
 package org.opencompare;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.*;
 import org.opencompare.affichage.Affichage;
 import org.opencompare.affichage.AffichageImpl;
 import org.opencompare.analyse.Analyse;
@@ -8,10 +8,6 @@ import org.opencompare.analyse.AnalyseImpl;
 import org.opencompare.traitement.Traitement;
 import org.opencompare.traitement.TraitementImpl;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Scanner;
 

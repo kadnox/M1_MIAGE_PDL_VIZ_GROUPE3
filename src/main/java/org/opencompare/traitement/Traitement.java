@@ -10,9 +10,14 @@ import java.util.ArrayList;
  */
 public interface Traitement {
     Map getData();
+
     Map getDataInitial();
+
     boolean setData(File pcmFile)  throws IOException;
+
     void setDataInitial(File pcmFile) throws IOException;
+
     ArrayList<String> getFeatureListe();
+
     ArrayList<String> getProductListe();
 }

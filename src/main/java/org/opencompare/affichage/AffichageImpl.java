@@ -15,13 +15,12 @@ import org.opencompare.traitement.Traitement;
 public class AffichageImpl implements Affichage {
     private final char INSECABLE = (char) 160;
     private final char UNDERSCORE = (char) 95;
+    private final char LINE_RETURN = (char) 10;
     private final String NEW_LINE = System.getProperty("line.separator");
-    private Analyse analyse;
     private Traitement traitement;
 
     public AffichageImpl(Traitement t, Analyse a) throws IOException {
         this.traitement = t;
-        this.analyse = a;
     }
 
     public void HTMLGenerator(File parentFolder, String fileName) throws IOException {
@@ -45,52 +44,40 @@ public class AffichageImpl implements Affichage {
         //Remplacement du titre
         htmlString = htmlString.replace("$title", fileName);
 
-        String feature = "";
+        String htmlFeatures = "";
         for (int i = 1; i < features.size() + 1; i++) {
-            feature = feature + "<option value=" + i + "> " + features.get(i - 1) + "</option>" + NEW_LINE;
+            String feature = features.get(i - 1);
+            feature = feature.toLowerCase().replace("'","_").replace('"','_').replace(INSECABLE ,UNDERSCORE).replace(" ","_").replace("/","_par_").replace(LINE_RETURN, UNDERSCORE);
+            htmlFeatures = htmlFeatures + "<option value=" + feature + "> " + features.get(i - 1) + "</option>" + NEW_LINE;
         }
 
-        htmlString = htmlString.replace("$feature", feature);
-        String product = "";
-        String writerjson = "";
+        htmlString = htmlString.replace("$feature", htmlFeatures);
 
+        String htmlProducts = "";
         for (int i = 0; i < products.size(); i++) {
-            product = product + "<li class=\"collection-item\">";
-            Map temporaire = (Map) data.get(products.get(i));
-            writerjson = writerjson + "\"" + products.get(i) + "\" : \n {";
+            htmlProducts = htmlProducts + "<li class=\"collection-item\">";
+            Map productFeatures= (Map) data.get(products.get(i));
             String ligne_html = "<span class='product_name present' ";
 
             for (int j = 0; j < features.size(); j++) {
                 String nom_feature = features.get(j);
-                String data_tmp = (String) temporaire.get(features.get(j));
-                data_tmp = data_tmp.replace("'", " ").replace('"', ' ');
+                String data_tmp = (String) productFeatures.get(features.get(j));
+                data_tmp = data_tmp.replace("'", " ").replace('"', ' ').replace(LINE_RETURN, UNDERSCORE);
 
-                if (j < features.size() - 1) {
-                    writerjson = writerjson + "\"" + nom_feature + "\":\"" + data_tmp + "\", \n";
-                } else {
-                    writerjson = writerjson + "\"" + nom_feature + "\":" + data_tmp + "\n ";
-                }
-                nom_feature = nom_feature.toLowerCase().replace("'", "_").replace('"', '_').replace(INSECABLE, UNDERSCORE).replace(" ", "_").replace("/", "_par_");
+                nom_feature = nom_feature.toLowerCase().replace("'", "_").replace('"', '_').replace(INSECABLE, UNDERSCORE).replace(" ", "_").replace("/", "_par_").replace(LINE_RETURN, UNDERSCORE);
 
-
-                data_tmp = data_tmp.replace("'", "_").replace('"', '_').replace(INSECABLE, UNDERSCORE).replace(" ", "_");
+                data_tmp = data_tmp.replace("'", "_").replace('"', '_').replace(INSECABLE, UNDERSCORE).replace(" ", "_").replace(LINE_RETURN, UNDERSCORE);;
                 ligne_html = ligne_html + "data-" + nom_feature + "='" + data_tmp + "' ";
             }
 
             String produit = products.get(i);
-            produit = produit.replace("'", "_").replace('"', '_').replace(INSECABLE, UNDERSCORE).replace(" ", "_");
+            produit = produit.replace("'", "_").replace('"', '_').replace(INSECABLE, UNDERSCORE).replace(" ", "_").replace(LINE_RETURN, UNDERSCORE);;
 
-            product = product + ligne_html + ">" + products.get(i) + "</span>" + NEW_LINE;
-            product = product + getProductHtmlLine(produit);
-
-            if (i < products.size() - 1) {
-                writerjson = writerjson + "\n},";
-            } else {
-                writerjson = writerjson + "\n}";
-            }
+            htmlProducts = htmlProducts + ligne_html + ">" + products.get(i) + "</span>" + NEW_LINE;
+            htmlProducts = htmlProducts + getProductHtmlLine(produit);
         }
 
-        htmlString = htmlString.replace("$product", product);
+        htmlString = htmlString.replace("$product", htmlProducts);
 
         File file = new File(parentFolder, fileName + ".html");
         FileUtils.writeStringToFile(file, htmlString);
