@@ -12,7 +12,7 @@ function noProductAdded() {
 }
 
 function generatePie() {
-    var str = $('#select_feature option:selected').text();
+    var str = $('#select_feature option:selected').val();
     $("p").css("color","red");
     $("#test").append(  str +"</br>" );
     var person = new Object();
