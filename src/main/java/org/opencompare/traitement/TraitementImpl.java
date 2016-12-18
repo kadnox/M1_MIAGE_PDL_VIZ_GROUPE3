@@ -28,36 +28,42 @@ public class TraitementImpl implements Traitement {
         return this.dataInitial;
     }
 
-    public void setData(File pcmFile) throws IOException {
+    public boolean setData(File pcmFile) throws IOException {
         // On gère le format de fichier
-        PCMLoader loader = new KMFJSONLoader();
+        try {
+            PCMLoader loader = new KMFJSONLoader();
+            List<PCMContainer> pcmContainers = loader.load(pcmFile);
 
-        List<PCMContainer> pcmContainers = loader.load(pcmFile);
+            for (PCMContainer pcmContainer : pcmContainers) {
+                // On récupère la PCM
+                PCM pcm = pcmContainer.getPcm();
 
-        for (PCMContainer pcmContainer : pcmContainers) {
-            // On récupère la PCM
-            PCM pcm = pcmContainer.getPcm();
+                // On parcourts les cellules de la PCM
+                for (Product product : pcm.getProducts()) {
+                    // On crée le hashtable contenu dans la liste
+                    Hashtable<String, String> values = new Hashtable<String, String>();
 
-            // On parcourts les cellules de la PCM
-            for (Product product : pcm.getProducts()) {
-                // On crée le hashtable contenu dans la liste
-                Hashtable<String, String> values = new Hashtable<String, String>();
+                    for (Feature feature : pcm.getConcreteFeatures()) {
+                        // Find the cell corresponding to the current feature and product
+                        Cell cell = product.findCell(feature);
 
-                for (Feature feature : pcm.getConcreteFeatures()) {
-                    // Find the cell corresponding to the current feature and product
-                    Cell cell = product.findCell(feature);
+                        // Récupération de l'information contenu dans la cellule
+                        String content = cell.getContent();
 
-                    // Récupération de l'information contenu dans la cellule
-                    String content = cell.getContent();
+                        // On insére la clé et la valeur
+                        values.put(feature.getName(), content);
+                    }
 
-                    // On insére la clé et la valeur
-                    values.put(feature.getName(), content);
+                    // On insère la clé et la valeur (L'arrayList) dans le hashtable
+                    data.put(product.getKeyContent(), values);
                 }
-
-                // On insère la clé et la valeur (L'arrayList) dans le hashtable
-                data.put(product.getKeyContent(), values);
             }
+        } catch (Exception e) {
+            System.out.println("Votre fichier n'est pas une PCM.");
+            return false;
         }
+
+        return true;
     }
 
 

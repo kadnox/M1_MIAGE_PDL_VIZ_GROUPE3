@@ -13,7 +13,6 @@ public class Menu {
     }
 
     public int gerer() {
-        Scanner scanner = new Scanner(System.in);
         int resultat;
 
         System.out.print("\n");
@@ -22,6 +21,7 @@ public class Menu {
             System.out.println(i + 1 + " - " + this.itemsMenu[i]);
         }
 
+        Scanner scanner = new Scanner(System.in);
         System.out.println("0 - Quitter\n");
         int longueurMax = 0;
 
