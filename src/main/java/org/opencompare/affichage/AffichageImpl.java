@@ -34,8 +34,6 @@ public class AffichageImpl implements Affichage {
     private String getFeatureType(String feature) {
         String result = "";
 
-        System.out.println("HERE : " + feature);
-
         if(analyse.isBinaire(feature)) {
             result = "binary";
         } else if(analyse.isDateFR(feature) || analyse.isDateUK(feature)) {
@@ -64,10 +62,6 @@ public class AffichageImpl implements Affichage {
         List<String> products = traitement.getProductListe();
         List<String> features = traitement.getFeatureListe();
 
-        for(String f : features) {
-            System.out.println(f);
-        }
-
         //Récuparation du contenu du fichier template
         InputStream inputTemplate = Main.class.getClass().getResourceAsStream("/templates/template.html");
 
@@ -87,7 +81,7 @@ public class AffichageImpl implements Affichage {
         for (int i = 1; i < features.size() + 1; i++) {
             String feature = features.get(i - 1);
             String featureValue = eraseSpecialCharacter(feature, true);
-            htmlFeatures = htmlFeatures + "<option value=" + featureValue + " data-chart=" + getFeatureType(feature) + "> " + features.get(i - 1) + "</option>" + NEW_LINE;
+            htmlFeatures = htmlFeatures + "<option value=" + featureValue + " data-chart=" + getFeatureType(feature) + "> " + feature + "</option>" + NEW_LINE;
         }
 
         htmlString = htmlString.replace("$feature", htmlFeatures);
@@ -131,7 +125,7 @@ public class AffichageImpl implements Affichage {
     private String eraseSpecialCharacter(String s, boolean lowerCase) {
         String res = s.replace("'", "_").replace('"', '_').replace(" ", "_").replace("/", "_par_").replace("-", "_").replace(LINE_RETURN, UNDERSCORE).replace(INSECABLE, UNDERSCORE);
 
-        if (lowerCase) {
+        if(lowerCase) {
             return res.toLowerCase();
         } else {
             return res;
