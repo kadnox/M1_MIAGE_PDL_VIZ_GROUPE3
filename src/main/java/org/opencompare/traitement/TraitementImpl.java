@@ -98,12 +98,10 @@ public class TraitementImpl implements Traitement {
         }
     }
 
-
     @Override
     public ArrayList<String> getFeatureListe() {
         return new ArrayList<>(this.data.get(getProductListe().get(0)).keySet());
     }
-
 
     @Override
     public ArrayList<String> getProductListe() {
