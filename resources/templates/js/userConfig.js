@@ -1,6 +1,21 @@
 function disabledUselessProduct() {
     var optionName = document.getElementById('select_feature').value;
 
+	$(".collection-item .present").each(function(){
+		$(this).parent().removeClass("disabled");
+		//$(this).removeClass("disabled");
+		var test = $(this).parentsUntil(".collection-item").text();
+		var res = $(this).data(optionName);
+		if(res == undefined || !res){
+			console.log(" on a enleve un " + optionName + " au produit " + test)
+			$(this).parent().addClass("disabled");
+		}
+		else{
+			console.log(" res egal a " + res)
+		}
+
+	})
+
     
 }
 
