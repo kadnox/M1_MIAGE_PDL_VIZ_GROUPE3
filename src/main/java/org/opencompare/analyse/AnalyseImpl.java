@@ -56,11 +56,11 @@ public class AnalyseImpl implements Analyse {
         while (it.hasNext() && isNumber) {
             value = it.next();
             isNumber = value.matches("[0-9]*");
-            if(!isNumber){
+            if (!isNumber) {
                 cptFalse++;
-                if(cptFalse/laListe.size() <= 0.33) {
-                    isNumber = true;
-                }
+
+                isNumber = acceptable(cptFalse, laListe.size());
+
             }
         }
         return isNumber;
@@ -76,11 +76,11 @@ public class AnalyseImpl implements Analyse {
         while (it.hasNext() && isString) {
             value = it.next();
             isString = value.matches("[a-zA-Z0-9]*") || value.matches("\\W{1,3}");
-            if(!isString){
+            if (!isString) {
                 cptFalse++;
-                if(cptFalse/laListe.size() <= 0.33) {
-                    isString = true;
-                }
+
+                isString = acceptable(cptFalse, laListe.size());
+
             }
         }
 
@@ -97,11 +97,11 @@ public class AnalyseImpl implements Analyse {
         while (it.hasNext() && isDate) {
             value = it.next();
             isDate = value.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}") || value.matches("[0-9]{4}-[0-9]{2}") || value.matches("[0-9]{4}/[0-9]{2}/[0-9]{2}") || value.matches("[0-9]{4}/[0-9]{2}") || correctYear(value);
-            if(!isDate){
+            if (!isDate) {
                 cptFalse++;
-                if(cptFalse/laListe.size() <= 0.33) {
-                    isDate = true;
-                }
+
+                isDate = acceptable(cptFalse, laListe.size());
+
             }
         }
         return isDate;
@@ -117,23 +117,20 @@ public class AnalyseImpl implements Analyse {
         while (it.hasNext() && isDate) {
             value = it.next();
             isDate = value.matches("[0-9]{2}-[0-9]{2}-[0-9]{4}") || value.matches("[0-9]{2}-[0-9]{4}") || value.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}") || value.matches("[0-9]{2}/[0-9]{4}") || correctYear(value);
-            if(!isDate){
+            if (!isDate) {
                 cptFalse++;
-                if(cptFalse/laListe.size() <= 0.33) {
-                    isDate = true;
-                }
+
+                isDate = acceptable(cptFalse, laListe.size());
+
             }
         }
         return isDate;
     }
 
     private boolean correctYear(String year) {
-        Calendar cal = Calendar.getInstance();
-        int today = cal.getWeekYear();
         boolean correct = false;
-        if(year.matches("[0-9]*")){
-            int y = new Integer(year);
-           correct = (year.matches("[0-9]{4}") || year.matches("[0-9]{2}")) && (y < today);
+        if (year.matches("[0-9]*")) {
+            correct = (year.matches("[0-9]{4}") || year.matches("[0-9]{2}"));
         }
         return correct;
     }
@@ -148,11 +145,11 @@ public class AnalyseImpl implements Analyse {
         while (it.hasNext() && isYear) {
             value = it.next();
             isYear = correctYear(value);
-            if(!isYear){
+            if (!isYear) {
                 cptFalse++;
-                if(cptFalse/laListe.size() <= 0.33) {
-                    isYear = true;
-                }
+
+                isYear = acceptable(cptFalse, laListe.size());
+
             }
         }
         return isYear;
@@ -168,11 +165,9 @@ public class AnalyseImpl implements Analyse {
         while (it.hasNext() && isPercent) {
             value = it.next();
             isPercent = value.matches("[0-9]{1,3}%");
-            if(!isPercent){
+            if (!isPercent) {
                 cptFalse++;
-                if(cptFalse/laListe.size() <= 0.33) {
-                    isPercent = true;
-                }
+                isPercent = acceptable(cptFalse, laListe.size());
             }
         }
         return isPercent;
@@ -180,6 +175,36 @@ public class AnalyseImpl implements Analyse {
 
     @Override
     public boolean isPercentCent(String feature) {
-        return false;
+        if (isPercent(feature)) {
+            int cpt = 0;
+            ArrayList<String> laListe = (ArrayList<String>) getTableCompare().get(new String(feature));
+            Iterator<String> it = laListe.iterator();
+            String value;
+            while (it.hasNext()) {
+                value = it.next();
+                String[] split = value.split("%");
+                if(split[0].matches("[0-9]{1,3}")) {
+                    cpt = cpt + new Integer(split[0]);
+                }
+            }
+            return cpt > 97 && cpt <= 100;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean acceptable(int cpt, int taille) {
+        if (taille <= 10) {
+            return cpt / taille <= 0;
+        } else if (taille <= 25) {
+            return cpt / taille <= 0.01;
+        } else if (taille <= 50) {
+            return cpt / taille <= 0.04;
+        } else if (taille <= 100) {
+            return cpt / taille <= 0.07;
+        } else {
+            return cpt / taille <= 0.10;
+        }
+
     }
 }
