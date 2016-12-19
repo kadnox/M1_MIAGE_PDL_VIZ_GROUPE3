@@ -1,5 +1,7 @@
 package org.opencompare.traitement;
 
+import org.opencompare.analyse.Analyse;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -21,5 +23,9 @@ public interface Traitement {
 
     ArrayList<String> getProductListe();
 
-    boolean isPcmExploitableBlank();
+    boolean isBlankPCM();
+
+    void removeUselessProduct();
+
+    void removeUselessFeatures();
 }

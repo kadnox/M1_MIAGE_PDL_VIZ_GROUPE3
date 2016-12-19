@@ -3,6 +3,8 @@ package org.opencompare;
 import org.apache.commons.io.*;
 import org.opencompare.affichage.Affichage;
 import org.opencompare.affichage.AffichageImpl;
+import org.opencompare.analyse.Analyse;
+import org.opencompare.analyse.AnalyseImpl;
 import org.opencompare.traitement.Traitement;
 import org.opencompare.traitement.TraitementImpl;
 
@@ -37,51 +39,38 @@ public class Main {
 
                             if(validPath && path.contains(".pcm")) {
                                 Traitement traitement = new TraitementImpl();
+                                traitement.setDataInitial(new File(path));
                                 boolean isPCM = traitement.setData(new File(path));
-                                boolean blankPCM = traitement.isPcmExploitableBlank();
+                                boolean isBlankPCM = traitement.isBlankPCM();
 
-                                if(isPCM && blankPCM) {
-                                    String pathModified = path.replace("\\", "/");
-                                    String[] pathSplit = pathModified.split("/");
-                                    String title = pathSplit[pathSplit.length - 1].substring(0,  pathSplit[pathSplit.length - 1].length() - 4);
-
-                                    Affichage aff = new AffichageImpl(traitement);
-
-                                    File folderSource;
-                                    //Recherche d'un nom de dossier
-                                    if(new File(dir + "/" + title).exists()) {
-                                        int i = 1;
-
-                                        while(new File(dir + "/" + title + " (" + i + ")").exists()) {
-                                            i++;
-                                        }
-
-                                        folderSource = new File(dir + "/" + title + " (" + i + ")");
-                                    } else {
-                                        folderSource = new File(dir + "/" + title);
-                                    }
-
-                                    //Dossier source des ressources
-                                    File folderImg = new File(folderSource, "images");
-                                    File folderCSS = new File(folderSource, "css");
-                                    File folderJS = new File(folderSource, "js");
-
-                                    //Création des dossiers
-                                    if(folderSource.mkdir() && folderCSS.mkdir() && folderJS.mkdir() && folderImg.mkdir()) {
-                                        //Copie des ressources dans les dossiers
-                                        copyImageResources(folderImg);
-                                        copyTemplateResources(folderCSS, folderJS);
-
-                                        //Génération de la visualisation
-                                        aff.HTMLGenerator(folderSource, title);
-                                    } else {
-                                        System.out.println("Echec de la génération du dossier.");
-                                    }
+                                if(isPCM && !isBlankPCM) {
+                                    generate(traitement, path, dir);
                                 } else {
                                     if(!isPCM) {
                                         System.out.println("Votre fichier n'est pas une PCM.");
-                                    } else if(!blankPCM) {
+                                    } else if(isBlankPCM) {
                                         System.out.println("Votre PCM n'est pas exploitable.");
+
+                                        String rep;
+                                        do {
+                                            System.out.println("Souhaitez vous quand même obtenir votre visualisation ? (o/n)");
+                                            rep = scanner.next();
+                                        } while(!rep.equals("o") && rep.equals("O") && rep.equals("n") && rep.equals("N"));
+
+                                        if(rep.equals("o")) {
+                                            do {
+                                                System.out.println("Souhaitez vous obtenir votre visualisation réduite (Suppression des éléments inutiles) ? (o/n)");
+                                                rep = scanner.next();
+                                            } while(!rep.equals("o") && !rep.equals("O") && !rep.equals("n") && !rep.equals("N"));
+
+                                            if(rep.equals("o") || rep.equals("O")) {
+                                                traitement.removeUselessFeatures();
+                                                traitement.removeUselessProduct();
+                                                generate(traitement, path, dir);
+                                            } else {
+                                                generate(traitement, path, dir);
+                                            }
+                                        }
                                     }
                                 }
                             } else {
@@ -121,6 +110,53 @@ public class Main {
                         "-e",
                          "java -jar " + dir + "/M1_MIAGE_PDL_VIZ_GROUPE3.jar menu").start();
             }
+        }
+    }
+
+    private static void generate(Traitement traitement, String path, String dir) {
+        String pathModified = path.replace("\\", "/");
+        String[] pathSplit = pathModified.split("/");
+        String title = pathSplit[pathSplit.length - 1].substring(0,  pathSplit[pathSplit.length - 1].length() - 4);
+
+        Analyse analyse = new AnalyseImpl(traitement);
+        Affichage aff = new AffichageImpl(traitement, analyse);
+
+        File folderSource;
+        //Recherche d'un nom de dossier
+        if(new File(dir + "/" + title).exists()) {
+            int i = 1;
+
+            while(new File(dir + "/" + title + " (" + i + ")").exists()) {
+                i++;
+            }
+
+            folderSource = new File(dir + "/" + title + " (" + i + ")");
+        } else {
+            folderSource = new File(dir + "/" + title);
+        }
+
+        //Dossier source des ressources
+        File folderImg = new File(folderSource, "images");
+        File folderCSS = new File(folderSource, "css");
+        File folderJS = new File(folderSource, "js");
+
+        //Création des dossiers
+        if(folderSource.mkdir() && folderCSS.mkdir() && folderJS.mkdir() && folderImg.mkdir()) {
+            try {
+                //Copie des ressources dans les dossiers
+                copyImageResources(folderImg);
+                copyTemplateResources(folderCSS, folderJS);
+
+                //Génération de la visualisation
+                aff.HTMLGenerator(folderSource, title);
+            } catch (IOException e) {
+                System.out.println("Echec de la génération des dossiers de ressources.");
+                folderSource.delete();
+            }
+
+            System.out.println("Visualisation généré.");
+        } else {
+            System.out.println("Echec de la génération du dossier.");
         }
     }
 

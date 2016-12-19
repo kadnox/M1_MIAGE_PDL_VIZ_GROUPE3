@@ -8,7 +8,6 @@ import java.util.*;
  * donc doit dire si c'est un String il faut
  */
 public interface Analyse {
-    String getFeatureType(String feature);
 
     Map getTableCompare();
 
@@ -24,8 +23,10 @@ public interface Analyse {
 
     boolean isDateFR(String feature);
 
-    boolean correctYear(String year);
+    boolean isYear(String feature);
 
     boolean isPercent(String feature);
+
+    boolean isPercentCent(String feature);
 
 }
