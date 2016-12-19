@@ -18,16 +18,55 @@ public class AffichageImpl implements Affichage {
     private final char LINE_RETURN = (char) 10;
     private final String NEW_LINE = System.getProperty("line.separator");
     private Traitement traitement;
+    private Analyse analyse;
 
-    public AffichageImpl(Traitement t) throws IOException {
+    public AffichageImpl(Traitement t, Analyse a) {
         this.traitement = t;
+        this.analyse = a;
     }
 
+    /**
+     * Recupere les graphique les plus pertinent des feature via le string donné en paramètre
+     *
+     * @param feature Nom de la feature
+     * @return Une liste des graphiques des feature
+     */
+    private String getFeatureType(String feature) {
+        String result = "";
+
+        System.out.println("HERE : " + feature);
+
+        if(analyse.isBinaire(feature)) {
+            result = "binary";
+        } else if(analyse.isDateFR(feature) || analyse.isDateUK(feature)) {
+            result = "date";
+        } else if(analyse.isPercent(feature)) {
+            result = "percent";
+        } else if(analyse.isInteger(feature)) {
+            result = "integer";
+        } else {
+            result = "string";
+        }
+
+        return result;
+    }
+
+    /**
+     * Genere les ressources ainsi que la visualisation nécessaire a l'utilisateur
+     *
+     * @param parentFolder Dossier contenant la PCM
+     * @param fileName Nom du ficher PCM
+     * @throws IOException
+     */
     public void HTMLGenerator(File parentFolder, String fileName) throws IOException {
         Map<String, Map<String, String>> data = traitement.getData();
 
-        ArrayList<String> products = traitement.getProductListe();
-        ArrayList<String> features = traitement.getFeatureListe();
+        List<String> products = traitement.getProductListe();
+        List<String> features = traitement.getFeatureListe();
+
+        for(String f : features) {
+            System.out.println(f);
+        }
 
         //Récuparation du contenu du fichier template
         InputStream inputTemplate = Main.class.getClass().getResourceAsStream("/templates/template.html");
@@ -47,8 +86,8 @@ public class AffichageImpl implements Affichage {
         String htmlFeatures = "";
         for (int i = 1; i < features.size() + 1; i++) {
             String feature = features.get(i - 1);
-            feature = feature.toLowerCase().replace("'","_").replace('"','_').replace(INSECABLE ,UNDERSCORE).replace(" ","_").replace("/","_par_").replace(LINE_RETURN, UNDERSCORE);
-            htmlFeatures = htmlFeatures + "<option value=" + feature + "> " + features.get(i - 1) + "</option>" + NEW_LINE;
+            String featureValue = eraseSpecialCharacter(feature, true);
+            htmlFeatures = htmlFeatures + "<option value=" + featureValue + " data-chart=" + getFeatureType(feature) + "> " + features.get(i - 1) + "</option>" + NEW_LINE;
         }
 
         htmlString = htmlString.replace("$feature", htmlFeatures);
@@ -62,16 +101,15 @@ public class AffichageImpl implements Affichage {
             for (int j = 0; j < features.size(); j++) {
                 String nom_feature = features.get(j);
                 String data_tmp = (String) productFeatures.get(features.get(j));
-                data_tmp = data_tmp.replace("'", " ").replace('"', ' ').replace(LINE_RETURN, UNDERSCORE);
 
-                nom_feature = nom_feature.toLowerCase().replace("'", "_").replace('"', '_').replace(INSECABLE, UNDERSCORE).replace(" ", "_").replace("/", "_par_").replace(LINE_RETURN, UNDERSCORE);
+                nom_feature = eraseSpecialCharacter(nom_feature, true);
+                data_tmp = eraseSpecialCharacter(data_tmp, true);
 
-                data_tmp = data_tmp.replace("'", "_").replace('"', '_').replace(INSECABLE, UNDERSCORE).replace(" ", "_").replace(LINE_RETURN, UNDERSCORE);;
                 ligne_html = ligne_html + "data-" + nom_feature + "='" + data_tmp + "' ";
             }
 
             String produit = products.get(i);
-            produit = produit.replace("'", "_").replace('"', '_').replace(INSECABLE, UNDERSCORE).replace(" ", "_").replace(LINE_RETURN, UNDERSCORE);;
+            produit = eraseSpecialCharacter(produit, false);
 
             htmlProducts = htmlProducts + ligne_html + ">" + products.get(i) + "</span>" + NEW_LINE;
             htmlProducts = htmlProducts + getProductHtmlLine(produit);
@@ -88,6 +126,16 @@ public class AffichageImpl implements Affichage {
             "\t\t\t\t\t\t\t\t\t<i class=\"material-icons\">keyboard_arrow_right</i>\n" +
             "\t\t\t\t\t\t\t\t</a>\n" +
             "\t\t\t\t\t\t\t</li>";
+    }
+
+    private String eraseSpecialCharacter(String s, boolean lowerCase) {
+        String res = s.replace("'", "_").replace('"', '_').replace(" ", "_").replace("/", "_par_").replace("-", "_").replace(LINE_RETURN, UNDERSCORE).replace(INSECABLE, UNDERSCORE);
+
+        if (lowerCase) {
+            return res.toLowerCase();
+        } else {
+            return res;
+        }
     }
 }
 
