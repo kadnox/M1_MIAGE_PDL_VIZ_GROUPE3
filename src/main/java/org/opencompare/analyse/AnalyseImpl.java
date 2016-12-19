@@ -96,7 +96,7 @@ public class AnalyseImpl implements Analyse {
         boolean isDate = true;
         while (it.hasNext() && isDate) {
             value = it.next();
-            isDate = value.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}") || value.matches("[0-9]{4}-[0-9]{2}") || value.matches("[0-9]{4}/[0-9]{2}/[0-9]{2}") || value.matches("[0-9]{4}/[0-9]{2}") || correctYear(value);
+            isDate = value.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}") || value.matches("[0-9]{4}-[0-9]{2}") || value.matches("[0-9]{4}/[0-9]{2}/[0-9]{2}") || value.matches("[0-9]{4}/[0-9]{2}") || correctYear(value)|| ((value.matches("\\w{2,9} [0-9]{2} [0-9]{4}")|| value.matches("\\w{2,9} [0-9]{2}")) || value.matches("\\w{2,9} [0-9]{4}"));
             if (!isDate) {
                 cptFalse++;
 
@@ -116,7 +116,7 @@ public class AnalyseImpl implements Analyse {
         boolean isDate = true;
         while (it.hasNext() && isDate) {
             value = it.next();
-            isDate = value.matches("[0-9]{2}-[0-9]{2}-[0-9]{4}") || value.matches("[0-9]{2}-[0-9]{4}") || value.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}") || value.matches("[0-9]{2}/[0-9]{4}") || correctYear(value);
+            isDate = ((((value.matches("[0-9]{2}-[0-9]{2}-[0-9]{4}") || value.matches("[0-9]{2}-[0-9]{4}")) || value.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) || value.matches("[0-9]{2}/[0-9]{4}")) || correctYear(value)) || ((value.matches("[0-9]{2} \\w{2,9} [0-9]{4}")|| value.matches("[0-9]{2} \\w{2,9}")) || value.matches("\\w{2,9} [0-9]{4}")) ;
             if (!isDate) {
                 cptFalse++;
 
@@ -195,15 +195,15 @@ public class AnalyseImpl implements Analyse {
 
     private boolean acceptable(int cpt, int taille) {
         if (taille <= 10) {
-            return cpt / taille <= 0;
+            return (double) cpt / taille <= 0;
         } else if (taille <= 25) {
-            return cpt / taille <= 0.01;
+            return (double)cpt / taille <= 0.01;
         } else if (taille <= 50) {
-            return cpt / taille <= 0.04;
+            return (double)cpt / taille <= 0.04;
         } else if (taille <= 100) {
-            return cpt / taille <= 0.07;
+            return (double)cpt / taille <= 0.07;
         } else {
-            return cpt / taille <= 0.10;
+            return (double)cpt / taille <= 0.10;
         }
 
     }
