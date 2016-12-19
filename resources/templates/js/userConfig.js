@@ -1,7 +1,16 @@
 function disabledUselessProduct() {
     var optionName = document.getElementById('select_feature').value;
 
-    
+	$(".collection-item .present").each(function() {
+		$(this).parent().removeClass("disabled");
+		//$(this).removeClass("disabled");
+		var test = $(this).parentsUntil(".collection-item").text();
+		var res = $(this).data(optionName);
+
+		if(res == undefined || !res){
+			$(this).parent().addClass("disabled");
+		}
+	});
 }
 
 function enableChartIcons() {
@@ -82,7 +91,11 @@ function addProduct(object) {
 	object.setAttribute( "onClick", "removeProduct(this)");
 	object.classList.add('left');
 
-	var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
+    if(object.classList.contains('disabled')) {
+        var html_string = '<li class="collection-item disabled">' +  object.parentNode.innerHTML + '</li>';
+    } else {
+        var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
+    }
 
 	list_products_added.innerHTML += html_string;
 	removeElement(object);

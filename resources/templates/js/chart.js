@@ -28,17 +28,17 @@ function generatePie() {
     $("#list_products_added .present").each(function(){
         var res = $(this).data(str);
         var mot = $(this).text();
-        console.log(res + " et mot " + mot )
+        if (res) {
 
-        if ( res in tabl) {
-            tabl[res] = tabl[res]+1
-            //  $("#test").append(  "on creer pas " + res + "qui a la valeur " + person[res] + " </br>" );
-        } else {
-            tabl[res] = 1
-            // $("#test").append(  "on creer " + res + "qui a la valeur " + person[res]+ " </br>" );
+            if (res in tabl) {
+                tabl[res] = tabl[res] + 1
+                //  $("#test").append(  "on creer pas " + res + "qui a la valeur " + person[res] + " </br>" );
+            } else {
+                tabl[res] = 1
+                // $("#test").append(  "on creer " + res + "qui a la valeur " + person[res]+ " </br>" );
+            }
+
         }
-
-
     })
 
     var num_couleur = 0
@@ -95,12 +95,13 @@ function generateBar() {
     var tabl = new Object();
     var tri = []
 
-$("#list_products_added .present").each(function(){
+    $("#list_products_added .present").each(function(){
         var res = $(this).data(str); // contient une valeur numérique comme une population
         var mot = $(this).text(); // nom du produit
-
-        tri.push(mot)
-        tabl[mot] = res
+        if(res) {
+            tri.push(mot)
+            tabl[mot] = res
+        }
     })
 
 
