@@ -55,7 +55,7 @@ public class AnalyseImpl implements Analyse {
         boolean isNumber = true;
         while (it.hasNext() && isNumber) {
             value = it.next();
-            isNumber = value.matches("[0-9]*");
+            isNumber = value.matches("^(-|\\+)?[0-9]*(\\.|,)?[0-9]+$");
             if (!isNumber) {
                 cptFalse++;
 
@@ -192,7 +192,6 @@ public class AnalyseImpl implements Analyse {
     }
 
     private boolean acceptable(int cpt, int taille) {
-        System.out.println((double)cpt / taille);
         if (taille <= 10) {
             return (double) cpt / taille <= 0;
         } else if (taille <= 25) {
