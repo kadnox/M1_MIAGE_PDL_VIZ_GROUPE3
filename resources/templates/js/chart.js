@@ -39,6 +39,9 @@ function generatePie() {
             }
 
         }
+        else{
+            $(this).parent().addClass("disabled");
+        }
     })
 
     var num_couleur = 0
@@ -101,6 +104,9 @@ function generateBar() {
         if(res) {
             tri.push(mot)
             tabl[mot] = res
+        }
+        else{
+            $(this).parent().addClass("disabled");
         }
     })
 

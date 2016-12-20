@@ -3,8 +3,6 @@ function disabledUselessProduct() {
 
 	$(".collection-item .present").each(function() {
 		$(this).parent().removeClass("disabled");
-		//$(this).removeClass("disabled");
-		var test = $(this).parentsUntil(".collection-item").text();
 		var res = $(this).data(optionName);
 
 		if(res == undefined || !res){
@@ -12,6 +10,8 @@ function disabledUselessProduct() {
 		}
 	});
 }
+
+
 
 function enableChartIcons() {
 	document.getElementsByClassName('chart_icons')[0].classList.remove('hide');
@@ -83,7 +83,14 @@ function noResult(ul, search_length) {
 }
 
 function addProduct(object) {
-	var product_name = object.getAttribute('data-name');
+
+
+
+    var test =$(this).parent().hasClass("disabled");
+    console.log(test)
+    if($(this).parent().hasClass("disabled")){
+        console.log("on passe dans le if")
+    var product_name = object.getAttribute('data-name');
 	var product_position = object.getAttribute('data-position');
 	var list_products_added = document.getElementById('list_products_added');
 
@@ -91,14 +98,14 @@ function addProduct(object) {
 	object.setAttribute( "onClick", "removeProduct(this)");
 	object.classList.add('left');
 
-    if(object.classList.contains('disabled')) {
-        var html_string = '<li class="collection-item disabled">' +  object.parentNode.innerHTML + '</li>';
-    } else {
+
         var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
+
+        list_products_added.innerHTML += html_string;
+        removeElement(object);
     }
 
-	list_products_added.innerHTML += html_string;
-	removeElement(object);
+
 }
 
 function removeProduct(object) {
@@ -108,10 +115,11 @@ function removeProduct(object) {
 	object.setAttribute( "onClick", "addProduct(this)");
 	object.classList.remove('left');
 
-	var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
-
-	list_products_to_add.innerHTML += html_string;
-	removeElement(object);
+	if(!object.parent().classList.contains('disabled')) {
+		var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
+        list_products_to_add.innerHTML += html_string;
+        removeElement(object);
+	}
 }
 
 function removeElement(object) {
