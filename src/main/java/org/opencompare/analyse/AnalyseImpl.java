@@ -1,7 +1,6 @@
 package org.opencompare.analyse;
 
 import org.opencompare.traitement.Traitement;
-import org.opencompare.traitement.TraitementImpl;
 
 import java.util.*;
 
@@ -42,7 +41,7 @@ public class AnalyseImpl implements Analyse {
     @Override
     public boolean isBinaire(String feature) {
         Map<String, Integer> mapOccFeature = getMapOccFeature(feature);
-        Collection col = mapOccFeature.values();
+        Collection<Integer> col = mapOccFeature.values();
         return col.size() <= 3;
     }
 
