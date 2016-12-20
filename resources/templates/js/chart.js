@@ -40,7 +40,7 @@ function generatePie() {
 
         }
         else{
-            $(this).parent().addClass("disabled");
+            $(this).parent().addClass("disabled"); // on grisse le produit qui n' a pas servi.
         }
     })
 

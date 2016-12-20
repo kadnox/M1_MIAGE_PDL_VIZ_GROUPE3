@@ -6,7 +6,7 @@ function disabledUselessProduct() {
 		var res = $(this).data(optionName);
 
 		if(res == undefined || !res){
-			$(this).parent().addClass("disabled");
+			$(this).parent().addClass("disabled"); // grisse les produit ne pouvant pas servir
 		}
 	});
 }
