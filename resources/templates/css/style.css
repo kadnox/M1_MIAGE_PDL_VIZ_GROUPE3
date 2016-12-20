@@ -38,7 +38,7 @@ html, body {
 }
 
 .collection .collection-item:hover {
-	background-color: #E0E0E0 ;
+	background-color: #E0E0E0;
 }
 
 .collection-item .material-icons, #addAllButton .material-icons, #removeAllButton .material-icons {
@@ -50,8 +50,9 @@ html, body {
 }
 
 .disabled {
-    pointer-events: none;
-    background-color: #DFDFDF !important;
+	pointer-events: none;
+	background-color: #757575 !important;
+	color : white;
 }
 
 #arrows {
@@ -67,7 +68,7 @@ html, body {
 	cursor: pointer;
 }
 
-canvas{
+canvas {
 	width: 100% !important;
-    height: auto !important;
+	height: auto !important;
 }

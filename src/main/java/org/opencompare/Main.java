@@ -95,15 +95,7 @@ public class Main {
             if(os.contains("windows")) {
                 Runtime.getRuntime().exec("cmd /c start cmd /k java -jar M1_MIAGE_PDL_VIZ_GROUPE3.jar menu");
             } else if(os.contains("mac")) {
-                String[] cmd3 = {"xterm", "-e", "java -jar " + dir + "/M1_MIAGE_PDL_VIZ_GROUPE3.jar menu"};
-                Process p3 = new ProcessBuilder(cmd3).start();
-
-                Process p = new ProcessBuilder(
-                        "gnome-terminal",
-                        "-e",
-                        "java -jar " + dir + "/M1_MIAGE_PDL_VIZ_GROUPE3.jar menu").start();
-
-                Runtime.getRuntime().exec("/usr/bin/open -a Terminal java -jar M1_MIAGE_PDL_VIZ_GROUPE3.jar menu");
+                Runtime.getRuntime().exec("/usr/bin/open -a Terminal java -jar " + dir + "/M1_MIAGE_PDL_VIZ_GROUPE3.jar menu");
             } else if(os.contains("linux")) {
                 Process p = new ProcessBuilder(
                         "gnome-terminal",

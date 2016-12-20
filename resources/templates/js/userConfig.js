@@ -83,43 +83,36 @@ function noResult(ul, search_length) {
 }
 
 function addProduct(object) {
+    if(!object.parentNode.classList.contains("disabled")) {
+        console.log("Je passe dans le if");
+        var list_products_added = document.getElementById('list_products_added');
 
+        object.children[0].innerHTML = 'keyboard_arrow_left';
+        object.setAttribute("onClick", "removeProduct(this)");
+        object.classList.add('left');
 
-
-    var test =$(this).parent().hasClass("disabled");
-    console.log(test)
-    if($(this).parent().hasClass("disabled")){
-        console.log("on passe dans le if")
-    var product_name = object.getAttribute('data-name');
-	var product_position = object.getAttribute('data-position');
-	var list_products_added = document.getElementById('list_products_added');
-
-	object.children[0].innerHTML = 'keyboard_arrow_left';
-	object.setAttribute( "onClick", "removeProduct(this)");
-	object.classList.add('left');
-
-
-        var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
+        var html_string = '<li class="collection-item">' + object.parentNode.innerHTML + '</li>';
 
         list_products_added.innerHTML += html_string;
         removeElement(object);
     }
-
-
 }
 
 function removeProduct(object) {
-	var list_products_to_add = document.getElementById('list_products_to_add');
+    var list_products_to_add = document.getElementById('list_products_to_add');
 
-	object.children[0].innerHTML = 'keyboard_arrow_right';
-	object.setAttribute( "onClick", "addProduct(this)");
-	object.classList.remove('left');
+    object.children[0].innerHTML = 'keyboard_arrow_right';
+    object.setAttribute("onClick", "addProduct(this)");
+    object.classList.remove('left');
 
-	if(!object.parent().classList.contains('disabled')) {
-		var html_string = '<li class="collection-item">' +  object.parentNode.innerHTML + '</li>';
-        list_products_to_add.innerHTML += html_string;
-        removeElement(object);
-	}
+    if(object.parentNode.classList.contains("disabled")) {
+        var html_string = '<li class="collection-item disabled">' + object.parentNode.innerHTML + '</li>';
+    } else {
+        var html_string = '<li class="collection-item">' + object.parentNode.innerHTML + '</li>';
+    }
+
+    list_products_to_add.innerHTML += html_string;
+    removeElement(object);
 }
 
 function removeElement(object) {
@@ -134,11 +127,27 @@ function addAllProduct() {
 	var list_length = list_products_to_add.childElementCount;
 
 	if(list_length > 1) {
+        var precLi;
+        var cpt = 2;
 		for(var i = 0; i < list_length - 1; i++) {
-			var li = list_products_to_add.children[1];
+			var li = list_products_to_add.children[cpt - 1];
 
-			if(!li.className.includes('no_result')) {
-				addProduct(li.children[1]);
+            if(li.className.includes('disabled')) {
+                cpt++;
+            }
+
+            if(precLi == undefined) {
+                precLi = li;
+            } else {
+                if(precLi == li) {
+                    li = list_products_to_add.children[cpt];
+                }
+
+                precLi = li;
+            }
+
+			if(!li.className.includes('no_result') && !li.className.includes('disabled')) {
+                addProduct(li.children[1]);
 			}
 		}
 	}

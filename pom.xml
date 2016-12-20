@@ -5,10 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.opencompare</groupId>
-    <artifactId>getting-started</artifactId>
-    <version>0.7</version>
-
-
+    <artifactId>M1_MIAGE_PDL_VIZ_GROUPE3</artifactId>
+    <version>1.0</version>
 
     <dependencies>
 
@@ -31,6 +29,12 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.directory.studio</groupId>
+            <artifactId>org.apache.commons.io</artifactId>
+            <version>2.4</version>
         </dependency>
 
     </dependencies>
