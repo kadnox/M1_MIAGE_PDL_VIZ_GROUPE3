@@ -53,7 +53,9 @@ public class TraitementImpl implements Traitement {
                         String content = cell.getContent();
 
                         // On insére la clé et la valeur
-                        values.put(feature.getName(), content);
+                        if (!content.equals(product.getKeyContent())) {
+                            values.put(feature.getName(), content);
+                        }
                     }
 
                     // On insère la clé et la valeur (L'arrayList) dans le hashtable
@@ -114,18 +116,18 @@ public class TraitementImpl implements Traitement {
 
         double nbBox = 0;
         double blank = 0;
-        while(it1.hasNext()) {
+        while (it1.hasNext()) {
             String product = it1.next();
             Map<String, String> featuresMap = data.get(product);
 
             Set<String> featureKeys = featuresMap.keySet();
             Iterator<String> it2 = featureKeys.iterator();
 
-            while(it2.hasNext()) {
+            while (it2.hasNext()) {
                 String feature = it2.next();
                 String value = featuresMap.get(feature);
 
-                if(value.equals("")) {
+                if (value.equals("")) {
                     blank++;
                 }
 
@@ -133,7 +135,7 @@ public class TraitementImpl implements Traitement {
             }
         }
 
-        if(((blank/nbBox) * 100.00) >= 33.00) {
+        if (((blank / nbBox) * 100.00) >= 33.00) {
             return true;
         }
 
@@ -146,7 +148,7 @@ public class TraitementImpl implements Traitement {
         Set<String> productKeys = data.keySet();
         Iterator<String> it1 = productKeys.iterator();
 
-        while(it1.hasNext()) {
+        while (it1.hasNext()) {
             String productKey = it1.next();
             Map<String, String> featuresMap = data.get(productKey);
 
@@ -155,16 +157,16 @@ public class TraitementImpl implements Traitement {
 
             int nbFeatures = featureKeys.size();
             int blank = 0;
-            while(it2.hasNext()) {
+            while (it2.hasNext()) {
                 String feature = it2.next();
                 String value = featuresMap.get(feature);
 
-                if(value.equals("")) {
+                if (value.equals("")) {
                     blank++;
                 }
             }
 
-            for(String product : getProductListe()) {
+            for (String product : getProductListe()) {
                 Double apparition;
 
                 if (nbFeatures <= 2) {
@@ -187,7 +189,7 @@ public class TraitementImpl implements Traitement {
             }
         }
 
-        for(String product : productsToRemove) {
+        for (String product : productsToRemove) {
             this.data.remove(product);
         }
     }
@@ -200,19 +202,19 @@ public class TraitementImpl implements Traitement {
         Iterator<String> it1 = productKeys.iterator();
 
         double nbProduct = productKeys.size();
-        while(it1.hasNext()) {
+        while (it1.hasNext()) {
             String product = it1.next();
             Map<String, String> featuresMap = data.get(product);
 
             Set<String> featureKeys = featuresMap.keySet();
             Iterator<String> it2 = featureKeys.iterator();
 
-            while(it2.hasNext()) {
+            while (it2.hasNext()) {
                 String feature = it2.next();
                 String value = featuresMap.get(feature);
 
-                if(value.equals("")) {
-                    if(!occurrence.containsKey(feature)) {
+                if (value.equals("")) {
+                    if (!occurrence.containsKey(feature)) {
                         occurrence.put(feature, 1.00);
                     } else {
                         Double valeurOccurence = occurrence.get(feature);
@@ -221,24 +223,24 @@ public class TraitementImpl implements Traitement {
                 }
             }
 
-            for(String feature : getFeatureListe()) {
-                if(occurrence.get(feature) != null) {
+            for (String feature : getFeatureListe()) {
+                if (occurrence.get(feature) != null) {
                     Double apparition;
 
-                    if(nbProduct <= 10) {
+                    if (nbProduct <= 10) {
                         apparition = 80.00;
-                    } else if(nbProduct <= 25) {
+                    } else if (nbProduct <= 25) {
                         apparition = 66.00;
-                    } else if(nbProduct <= 50) {
+                    } else if (nbProduct <= 50) {
                         apparition = 50.00;
-                    } else if(nbProduct <= 100) {
+                    } else if (nbProduct <= 100) {
                         apparition = 33.00;
                     } else {
                         apparition = 30.00;
                     }
 
-                    if(((occurrence.get(feature)/nbProduct) * 100.00) >= apparition) {
-                        if(!featuresToRemove.contains(feature)) {
+                    if (((occurrence.get(feature) / nbProduct) * 100.00) >= apparition) {
+                        if (!featuresToRemove.contains(feature)) {
                             featuresToRemove.add(feature);
                         }
                     }
@@ -247,10 +249,10 @@ public class TraitementImpl implements Traitement {
         }
 
         it1 = productKeys.iterator();
-        while(it1.hasNext()) {
+        while (it1.hasNext()) {
             String product = it1.next();
 
-            for(String feature : featuresToRemove) {
+            for (String feature : featuresToRemove) {
                 this.data.get(product).remove(feature);
             }
         }
