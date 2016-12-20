@@ -1,6 +1,6 @@
 package org.opencompare;
 
-import org.apache.commons.io.*;
+import org.apache.commons.io.IOUtils;
 import org.opencompare.affichage.Affichage;
 import org.opencompare.affichage.AffichageImpl;
 import org.opencompare.analyse.Analyse;
@@ -105,6 +105,7 @@ public class Main {
         }
     }
 
+
     private static void generate(Traitement traitement, String path, String dir) {
         String pathModified = path.replace("\\", "/");
         String[] pathSplit = pathModified.split("/");
@@ -161,6 +162,12 @@ public class Main {
 
         buff = ImageIO.read(Main.class.getClass().getResourceAsStream("/images/radar_chart.png"));
         ImageIO.write(buff, "png", new File(folderImg.getAbsolutePath() + "/radar_chart.png"));
+
+        buff = ImageIO.read(Main.class.getClass().getResourceAsStream("/images/polar_chart.png"));
+        ImageIO.write(buff, "png", new File(folderImg.getAbsolutePath() + "/polar_chart.png"));
+
+        buff = ImageIO.read(Main.class.getClass().getResourceAsStream("/images/line_chart.png"));
+        ImageIO.write(buff, "png", new File(folderImg.getAbsolutePath() + "/line_chart.png"));
     }
 
     private static void copyTemplateResources(File folderCSS, File folderJS) throws IOException {

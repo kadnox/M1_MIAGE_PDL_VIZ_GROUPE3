@@ -5,15 +5,38 @@ function disabledUselessProduct() {
 		$(this).parent().removeClass("disabled");
 		var res = $(this).data(optionName);
 
-		if(res == undefined || !res){
+		if(res == undefined || !res) {
 			$(this).parent().addClass("disabled"); // grisse les produit ne pouvant pas servir
 		}
 	});
 }
 
-
-
 function enableChartIcons() {
+    var select = document.getElementById('select_feature');
+    var optionName = select.options[select.selectedIndex].getAttribute('data-chart');
+
+    document.getElementById("pie").classList.add('hide');
+    document.getElementById("bar").classList.add('hide');
+    document.getElementById("radar").classList.add('hide');
+    document.getElementById("line").classList.add('hide');
+    document.getElementById("polar").classList.add('hide');
+
+    if(optionName == "string" || optionName == "percent" || optionName == "date") {
+        document.getElementById("pie").classList.remove('hide');
+        document.getElementById("bar").classList.remove('hide');
+        document.getElementById("radar").classList.remove('hide');
+        document.getElementById("polar").classList.remove('hide');
+    } else if(optionName == "integer") {
+        document.getElementById("pie").classList.remove('hide');
+        document.getElementById("bar").classList.remove('hide');
+        document.getElementById("line").classList.remove('hide');
+        document.getElementById("radar").classList.remove('hide');
+        document.getElementById("polar").classList.remove('hide');
+    } else if(optionName == "binary" || optionName == "percentCent") {
+        document.getElementById("pie").classList.remove('hide');
+        document.getElementById("bar").classList.remove('hide');
+    }
+
 	document.getElementsByClassName('chart_icons')[0].classList.remove('hide');
 }
 

@@ -19,6 +19,7 @@ From a comparison matrix our software will generate an HTML page with JavaScript
 ## Technologies :
 
 We used these technologies :
+
 Java
 
 JS
@@ -43,7 +44,9 @@ jUnit, Materialize and jQuery librairy.
 
 
 ## Architecture :
+
 ```
+M1_MIAGE_PDL_VIZ_GROUPE3
 src
 	main
 		java
@@ -61,9 +64,7 @@ src
 				Main.java
 				Menu.java
 test
-    java
-        
-
+	java
 ```
 
 

@@ -72,17 +72,25 @@
 				</div>
 
 				<div class="col s12 center chart_icons hide">
-					<a class="chart_icon" onClick="generatePie()">
+					<a id="pie" class="chart_icon hide" onClick="generatePie()">
 						<img class="responsive-img" src="images/pie_chart.png" alt="Pie chart">
 					</a>
 
-					<a class="chart_icon" onClick="generateBar()">
+					<a id="bar" class="chart_icon hide" onClick="generateBar()">
 						<img class="responsive-img" src="images/bar_chart.png" alt="Bar chart">
 					</a>
 
-					<a class="chart_icon" onClick="generateRadar()">
+					<a id="radar" class="chart_icon hide" onClick="generateRadar()">
 						<img class="responsive-img" src="images/radar_chart.png" alt="Radar chart">
 					</a>
+
+                    <a id="line" class="chart_icon hide" onClick="generateLine()">
+                        <img class="responsive-img" src="images/line_chart.png" alt="Line chart">
+                    </a>
+
+                    <a id="polar" class="chart_icon hide" onClick="generatePolar()">
+                        <img class="responsive-img" src="images/polar_chart.png" alt="Polar chart">
+                    </a>
 				</div>
 			</div>
 		</div>

@@ -29,14 +29,16 @@ public class AffichageImpl implements Affichage {
      * Recupere les graphique les plus pertinent des feature via le string donné en paramètre
      *
      * @param feature Nom de la feature
-     * @return Une liste des graphiques des feature
+     * @return Le type de la donnée
      */
     private String getFeatureType(String feature) {
         String result = "";
 
-        if(analyse.isBinaire(feature)) {
+        if(analyse.isPercentCent(feature)) {
+            result = "percentCent";
+        } else if(analyse.isBinaire(feature)) {
             result = "binary";
-        } else if(analyse.isDateFR(feature) || analyse.isDateUK(feature)) {
+        } else if(analyse.isDateFR(feature) || analyse.isDateUK(feature) || analyse.isYear(feature)) {
             result = "date";
         } else if(analyse.isPercent(feature)) {
             result = "percent";
@@ -49,13 +51,6 @@ public class AffichageImpl implements Affichage {
         return result;
     }
 
-    /**
-     * Genere les ressources ainsi que la visualisation nécessaire a l'utilisateur
-     *
-     * @param parentFolder Dossier contenant la PCM
-     * @param fileName Nom du ficher PCM
-     * @throws IOException
-     */
     public void HTMLGenerator(File parentFolder, String fileName) throws IOException {
         Map<String, Map<String, String>> data = traitement.getData();
 
@@ -97,7 +92,13 @@ public class AffichageImpl implements Affichage {
                 String data_tmp = (String) productFeatures.get(features.get(j));
 
                 nom_feature = eraseSpecialCharacter(nom_feature, true);
-                data_tmp = eraseSpecialCharacter(data_tmp, true);
+                data_tmp = data_tmp.replace("'", "_").replace('"', '_').replace("/", "_par_").replace("-", "_").replace(LINE_RETURN, UNDERSCORE).replace(INSECABLE, UNDERSCORE);
+
+                if(data_tmp.equals("_")) {
+                    data_tmp = "No";
+                }
+
+                data_tmp.replace("_", " ");
 
                 ligne_html = ligne_html + "data-" + nom_feature + "='" + data_tmp + "' ";
             }
@@ -124,6 +125,10 @@ public class AffichageImpl implements Affichage {
 
     private String eraseSpecialCharacter(String s, boolean lowerCase) {
         String res = s.replace("'", "_").replace('"', '_').replace(" ", "_").replace("/", "_par_").replace("-", "_").replace(LINE_RETURN, UNDERSCORE).replace(INSECABLE, UNDERSCORE);
+
+        if(res.equals("_")) {
+            res = "No";
+        }
 
         if(lowerCase) {
             return res.toLowerCase();
