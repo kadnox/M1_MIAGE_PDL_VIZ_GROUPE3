@@ -17,19 +17,20 @@ import java.util.Map;
 public class Yvann {
     public static void main(String[] args) {
         TraitementImpl trait = new TraitementImpl();
-        try {
-            trait.setDataInitial(new File("pcms/Comparison_of_programming_languages_2.pcm"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+            new File("pcms/Comparison_of_programming_languages_2.pcm");
+            trait.setData(new File("pcms/test.pcm"));
+
+
         AnalyseImpl anal = new AnalyseImpl(trait);
- //       System.out.println(trait.getDataInitial());
-//        System.out.println(anal.getMapOccFeature("Name"));
-//        System.out.println(anal.isBinaire("Name"));
-//        System.out.println(anal.isDateFR("Name"));
+        System.out.println(trait.getData());
+ //     System.out.println(trait.getDataInitial());
+//      System.out.println(anal.getMapOccFeature("Name"));
+//      System.out.println(anal.isBinaire("Name"));
+//      System.out.println(anal.isDateFR("Name"));
         String value;
         value = "23/Septembre/2016";
-        System.out.println("\n"+ anal.isPercentCent(""));
+//        System.out.println("\n"+ anal.isPercentCent(""));
 //        System.out.println("\n"+trait.getDataInitial());
 //        Calendar cal = Calendar.getInstance();
 //        cal.getWeekYear();
