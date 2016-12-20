@@ -75,12 +75,10 @@ public class AnalyseImpl implements Analyse {
         boolean isString = true;
         while (it.hasNext() && isString) {
             value = it.next();
-            isString = value.matches("[a-zA-Z0-9]*") || value.matches("\\W{1,3}");
+            isString = value.matches("[a-zA-Z0-9\\W{1,3}]*");
             if (!isString) {
                 cptFalse++;
-
                 isString = acceptable(cptFalse, laListe.size());
-
             }
         }
 
@@ -194,6 +192,7 @@ public class AnalyseImpl implements Analyse {
     }
 
     private boolean acceptable(int cpt, int taille) {
+        System.out.println((double)cpt / taille);
         if (taille <= 10) {
             return (double) cpt / taille <= 0;
         } else if (taille <= 25) {
