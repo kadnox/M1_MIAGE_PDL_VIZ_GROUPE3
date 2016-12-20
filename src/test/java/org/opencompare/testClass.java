@@ -1,8 +1,10 @@
 package org.opencompare;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.opencompare.affichage.AffichageImpl;
 import org.opencompare.analyse.AnalyseImpl;
+import org.opencompare.traitement.Traitement;
 import org.opencompare.traitement.TraitementImpl;
 
 import java.io.File;
@@ -21,19 +23,16 @@ import static org.junit.Assert.assertTrue;
  */
 
 public class testClass {
+    private static Traitement trait;
 
+    @Before
+    public void before() throws IOException {
+        trait = new TraitementImpl();
+        trait.setDataInitial(new File(System.getProperty("user.dir") + "/src/test/files/test.pcm"));
+    }
 
     @Test
     public void testInitialisation() throws IOException {
-
-
-        TraitementImpl trait = new TraitementImpl();
-        trait.setDataInitial(new File("pcms/test.pcm"));
-
-        AnalyseImpl anal = new AnalyseImpl(trait);
-
-        AffichageImpl affiche = new AffichageImpl(trait, anal);
-
         Map<String, ArrayList<String>> dataInitial = new HashMap<>();
         List<String> list = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
@@ -67,16 +66,14 @@ public class testClass {
         dataInitial.put("Prix", (ArrayList<String>) list3);
         dataInitial.put("PDM", (ArrayList<String>) list4);
 
-
         assertEquals(trait.getDataInitial(), dataInitial);
-
-
     }
 
     @Test
     public void testInitialisationData() throws IOException {
-        TraitementImpl trait = new TraitementImpl();
-        trait.setData(new File("pcms/test.pcm"));
+        trait = new TraitementImpl();
+        trait.setData(new File(System.getProperty("user.dir") + "/src/test/files/test.pcm"));
+
         Map<String, Map<String, String>> data = new HashMap<>();
 
         Map<String, String> ssMap = new HashMap<>();
@@ -101,14 +98,10 @@ public class testClass {
         data.put("Haple", ssMap3);
 
         assertEquals(trait.getData(), data);
-
     }
 
     @Test
     public void testAnalyseBinaire() throws IOException {
-        TraitementImpl trait = new TraitementImpl();
-        trait.setDataInitial(new File("pcms/test.pcm"));
-
         AnalyseImpl anal = new AnalyseImpl(trait);
 
         assertTrue(anal.isBinaire("Bluetooh"));
@@ -116,9 +109,6 @@ public class testClass {
 
     @Test
     public void testAnalyseNumerique() throws IOException {
-        TraitementImpl trait = new TraitementImpl();
-        trait.setDataInitial(new File("pcms/test.pcm"));
-
         AnalyseImpl anal = new AnalyseImpl(trait);
 
         assertFalse(anal.isInteger("Bluetooh"));
@@ -127,9 +117,6 @@ public class testClass {
 
     @Test
     public void testAnalysePourcent() throws IOException {
-        TraitementImpl trait = new TraitementImpl();
-        trait.setDataInitial(new File("pcms/test.pcm"));
-
         AnalyseImpl anal = new AnalyseImpl(trait);
 
         assertFalse(anal.isPercent("Bluetooh"));
@@ -140,9 +127,6 @@ public class testClass {
 
     @Test
     public void testAnalyseDate() throws IOException {
-        TraitementImpl trait = new TraitementImpl();
-        trait.setDataInitial(new File("pcms/test.pcm"));
-
         AnalyseImpl anal = new AnalyseImpl(trait);
 
         assertFalse(anal.isDateFR("Bluetooh"));
@@ -154,9 +138,6 @@ public class testClass {
 
     @Test
     public void testAnalyseTexte() throws IOException {
-        TraitementImpl trait = new TraitementImpl();
-        trait.setDataInitial(new File("pcms/test.pcm"));
-
         AnalyseImpl anal = new AnalyseImpl(trait);
 
         assertTrue(anal.isString("Prix"));
@@ -166,15 +147,12 @@ public class testClass {
 
     @Test
     public void testAnalyseOccurence() throws IOException {
-        TraitementImpl trait = new TraitementImpl();
-        trait.setDataInitial(new File("pcms/test.pcm"));
-
         AnalyseImpl anal = new AnalyseImpl(trait);
         Map<String, Integer> ssMap = new HashMap<>();
+
         ssMap.put("Oui", 2);
         ssMap.put("Non", 1);
+
         assertEquals(anal.getMapOccFeature("Bluetooh"), ssMap);
     }
-
-
 }
