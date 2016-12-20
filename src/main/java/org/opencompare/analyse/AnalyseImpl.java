@@ -1,7 +1,6 @@
 package org.opencompare.analyse;
 
 import org.opencompare.traitement.Traitement;
-import org.opencompare.traitement.TraitementImpl;
 
 import java.util.*;
 
@@ -42,7 +41,7 @@ public class AnalyseImpl implements Analyse {
     @Override
     public boolean isBinaire(String feature) {
         Map<String, Integer> mapOccFeature = getMapOccFeature(feature);
-        Collection col = mapOccFeature.values();
+        Collection<Integer> col = mapOccFeature.values();
         return col.size() <= 3;
     }
 
@@ -55,7 +54,7 @@ public class AnalyseImpl implements Analyse {
         boolean isNumber = true;
         while (it.hasNext() && isNumber) {
             value = it.next();
-            isNumber = value.matches("[0-9]*");
+            isNumber = value.matches("^(-|\\+)?[0-9]*(\\.|,)?[0-9]+$");
             if (!isNumber) {
                 cptFalse++;
 
@@ -192,7 +191,6 @@ public class AnalyseImpl implements Analyse {
     }
 
     private boolean acceptable(int cpt, int taille) {
-        System.out.println((double)cpt / taille);
         if (taille <= 10) {
             return (double) cpt / taille <= 0;
         } else if (taille <= 25) {
