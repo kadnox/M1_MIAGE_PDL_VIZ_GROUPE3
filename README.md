@@ -81,7 +81,7 @@ then start to display html file with your browser !
 To Mac:
 
 Launch through the terminal with command line.
-java -jar /<jarName/>.jar menu
+java -jar jarName.jar menu
 
 
 
