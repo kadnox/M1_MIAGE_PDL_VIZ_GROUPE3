@@ -64,14 +64,24 @@ src
 				Main.java
 				Menu.java
 test
+    files
+        test.pcm
 	java
+	    testClass.java
+
 ```
 ## Launch
 
-Start the executable jar
-Define the pcm file path in the terminal which generete an HTML file
-Then start to display html file with your browser !
+To linux and windows:
 
+Start the executable jar.
+Define the pcm file path in the terminal which generete an HTML file
+then start to display html file with your browser !
+
+To Mac:
+
+Launch through the terminal with command line.
+java -jar <jarName>.jar menu
 
 
 
