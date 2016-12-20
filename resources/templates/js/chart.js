@@ -1,5 +1,6 @@
 ﻿
 var couleur =["#878BB6","#4ACAB4","#FF8153","#FFEA88"]
+var mycharto = true ; // indique qu'il n y a jamais eu de graphique variable globale qui conduit le graphique
 
 function checkProductList() {
     var list_products_added = document.getElementById('list_products_added');
@@ -60,18 +61,22 @@ function generatePie() {
     }
 
     if(checkProductList()) {
+        if (mycharto != true){
+            mycharto.destroy()// détruit le graphique precedent
+        }
         //Partie de redimensionnement obligatoire pour le responsive
         var parent = document.getElementById('canvas_container');
         parent.style.height = "500px";
 
         var canvas = document.getElementById("charts");
+
         var ctx = canvas.getContext("2d");
 
 
         canvas.width = parent.offsetWidth;
         canvas.height = parent.offsetHeight;
 
-        var mycharto = new Chart(ctx,{
+        mycharto = new Chart(ctx,{
                 type : "pie",
                 data : {
                     labels : labels,
@@ -129,15 +134,18 @@ function generateBar() {
 
 
     var canvas = document.getElementById("charts");
+
     var ctx = canvas.getContext("2d");
 
 
     canvas.width = parent.offsetWidth;
     canvas.height = parent.offsetHeight;
 
+    if (mycharto !=true){
+        mycharto.destroy();
+    }
 
-
-    var myChart = new Chart(ctx, {
+    mycharto = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: tri,
