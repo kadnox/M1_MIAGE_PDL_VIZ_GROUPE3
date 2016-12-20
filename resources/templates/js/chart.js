@@ -20,15 +20,18 @@ function noProductAdded(nb_product) { // fixer a 2 pour bar, line , pie et a 3 p
 
 function generatePie() {
     var str = $('#select_feature option:selected').val();
-    var type_feature = $('#select_feature option:selected').data("charts")
+    var type_feature = $('#select_feature option:selected').data("chart")
     var nom_feature = $('#select_feature option:selected').text();
     var tabl = new Object();
     if (type_feature == "percentCent") {
         $("#list_products_added .present").each(function () {
-            var res = $(this).data(str);
-            var mot = $(this).text(); // ici il ne s'agit plus d'un mot mais  d'un pourcentage
+            var res = $(this).data(str);// ici il ne s'agit plus d'un mot mais  d'un pourcentage
+            var mot = $(this).text();
+            res = res.replace("%","");
+
+
             if (res) {
-                tabl[res] = mot;
+                tabl[mot] = res;
             }
             else {
                 $(this).parent().addClass("disabled"); // on grise le produit qui n' a pas servi.
@@ -137,6 +140,28 @@ function generateBar() {
             donne.push(tmp)
         });
         titre = nom_feature + " pour chaque produit";
+    }
+    else if(type_feature =="percentCent"){
+        $("#list_products_added .present").each(function () {
+            var res = $(this).data(str);// ici il ne s'agit plus d'un mot mais  d'un pourcentage
+            var mot = $(this).text();
+            res = res.replace("%","");
+
+            if (res) {
+                tri.push(mot)
+                tabl[mot] = res;
+            }
+            else {
+                $(this).parent().addClass("disabled"); // on grise le produit qui n' a pas servi.
+            }
+        })
+        tri.forEach(function (y) {
+            var tmp = tabl[y]
+            donne.push(tmp)
+        });
+        titre = "pourcentage pour chaque produit " + nom_feature
+
+
     }
     else {
         // sinon on compte le nombre d'apparition d'une occurence
