@@ -66,6 +66,14 @@ src
 test
 	java
 ```
+## Launch
+
+Start the executable jar
+Define the pcm file path in the terminal which generete an HTML file
+Then start to display html file with your browser !
+
+
+
 
 
 
